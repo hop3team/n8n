@@ -238,17 +238,6 @@ export const companyFields: INodeProperties[] = [
 				name: 'name',
 				type: 'string',
 				default: '',
-				required: true,
-				displayOptions: {
-					show: {
-						operation: [
-							'update',
-						],
-						resource: [
-							'company',
-						],
-					},
-				},
 				description: 'company\'s firstname.',
 			},
 			...additionalFieldsCompanies,

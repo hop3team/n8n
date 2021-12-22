@@ -209,7 +209,7 @@ export const speakerFields: INodeProperties[] = [
 		],
 	},
 	// ----------------------------------
-	//         contact:update
+	//         speaker:update
 	// ----------------------------------
 	{
 		displayName: 'speaker ID',
