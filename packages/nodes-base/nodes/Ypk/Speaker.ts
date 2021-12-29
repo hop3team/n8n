@@ -150,6 +150,65 @@ const additionalFieldsSpeakers: INodeProperties[] = [
 
 export const speakerFields: INodeProperties[] = [
 	// ----------------------------------
+	//         speaker:create
+	// ----------------------------------
+  {
+		displayName: 'Firstname',
+		name: 'first_name',
+		type: 'string',
+		default: '',
+
+		displayOptions: {
+			show: {
+				operation: [
+					'create',
+				],
+				resource: [
+					'speaker',
+				],
+			},
+		},
+		description: 'speaker\'s firstname.',
+	},
+	{
+		displayName: 'Lastname',
+		name: 'last_name',
+		type: 'string',
+		default: '',
+		displayOptions: {
+			show: {
+				operation: [
+					'create',
+				],
+				resource: [
+					'speaker',
+				],
+			},
+		},
+		description: 'speaker\'s lastname.',
+	},
+	{
+		displayName: 'Update Fields',
+		name: 'additionalFields',
+		type: 'collection',
+		description: 'The fields to update.',
+		placeholder: 'Add Field',
+		displayOptions: {
+			show: {
+				operation: [
+					'create',
+				],
+				resource: [
+					'speaker',
+				],
+			},
+		},
+		default: {},
+		options: [
+			...additionalFieldsSpeakers,
+		],
+	},
+	// ----------------------------------
 	//         speaker:update
 	// ----------------------------------
 	{
@@ -170,7 +229,7 @@ export const speakerFields: INodeProperties[] = [
 		required: true,
 		description: 'ID of the speaker to update.',
 	},
-  {
+	{
 		displayName: 'Firstname',
 		name: 'first_name',
 		type: 'string',
