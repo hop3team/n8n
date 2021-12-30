@@ -20,6 +20,11 @@ export const speakersTrainingModuleOperations: INodeProperties[] = [
 				value: 'create',
 				description: 'Create or update an speakersTrainingModule',
 			},
+			{
+				name: 'Get All',
+				value: 'getAll',
+				description: 'Get data of all speakersTrainingModules of a session',
+			},
 		/*
 		{
 				name: 'Delete',
@@ -30,11 +35,6 @@ export const speakersTrainingModuleOperations: INodeProperties[] = [
 				name: 'Get',
 				value: 'get',
 				description: 'Get data of an speakersTrainingModule',
-			},
-			{
-				name: 'Get All',
-				value: 'getAll',
-				description: 'Get data of all speakersTrainingModules of a session',
 			},
 			{
 				name: 'Update',
