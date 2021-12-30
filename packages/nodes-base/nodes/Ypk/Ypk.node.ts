@@ -498,7 +498,15 @@ export class Ypk implements INodeType {
 
 					dataKey = 'training_session';
 					method = 'PATCH';
-				}/*
+				}
+				if (operation === 'getAll') {
+					const trainingSessionId = this.getNodeParameter('training_session_id', i, "") as string;
+
+					endpoint = `training_sessions/${trainingSessionId}/courses`;
+					dataKey = 'speakers_training_modules';
+					method = 'GET';
+				}
+				/*
 				if (operation === 'update') {
 					endpoint = `speakers_training_modules/${id}`;
 					dataKey = 'speakers_training_module';
@@ -514,13 +522,7 @@ export class Ypk implements INodeType {
 					dataKey = 'speakers_training_session';
 					method = 'GET';
 				}
-				if (operation === 'getAll') {
-					const trainingSessionId = this.getNodeParameter('training_session_id', i, "") as string;
 
-					endpoint = `training_sessions/${trainingSessionId}/speakers_training_modules`;
-					dataKey = 'speakers_training_modules';
-					method = 'GET';
-				}
 				*/
 			}
 
