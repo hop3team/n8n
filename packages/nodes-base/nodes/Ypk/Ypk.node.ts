@@ -489,14 +489,16 @@ export class Ypk implements INodeType {
 				endpoint = 'speakers_training_modules';
 				const additionalFields = this.getNodeParameter('additionalFields', i, {}) as IDataObject;
 				const id = this.getNodeParameter('id', i, '') as string;
-				const { ...fields } = additionalFields;
-				body = { speakers_training_session: { ...fields } };
+				const { training_session_id, ...fields } = additionalFields;
+				body = {training_session: {speakers_training_modules_attributes: [{...fields}]}};
 
 				if (operation === 'create') {
 					// get email input
-					dataKey = 'speakers_training_module';
-					method = 'POST';
-				}
+					endpoint = `training_sessions/${training_session_id}`;
+
+					dataKey = 'training_session';
+					method = 'PATCH';
+				}/*
 				if (operation === 'update') {
 					endpoint = `speakers_training_modules/${id}`;
 					dataKey = 'speakers_training_module';
@@ -519,6 +521,7 @@ export class Ypk implements INodeType {
 					dataKey = 'speakers_training_modules';
 					method = 'GET';
 				}
+				*/
 			}
 
 			if (resource === 'annexCost') {

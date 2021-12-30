@@ -16,11 +16,12 @@ export const speakersTrainingModuleOperations: INodeProperties[] = [
 		},
 		options: [
 			{
-				name: 'Create',
+				name: 'Create or Update',
 				value: 'create',
-				description: 'Create an speakersTrainingModule',
+				description: 'Create or update an speakersTrainingModule',
 			},
-			{
+		/*
+		{
 				name: 'Delete',
 				value: 'delete',
 				description: 'Delete an speakersTrainingModule',
@@ -40,6 +41,7 @@ export const speakersTrainingModuleOperations: INodeProperties[] = [
 				value: 'update',
 				description: 'Update an speakersTrainingModule',
 			},
+			*/
 		],
 		default: 'create',
 		description: 'The operation to perform.',
@@ -47,6 +49,13 @@ export const speakersTrainingModuleOperations: INodeProperties[] = [
 ];
 
 const additionalFieldsSpeakersTrainingModules: INodeProperties[] = [
+	{
+		displayName: 'ID',
+		name: 'id',
+		type: 'string',
+		default: '',
+		description: `speakersTrainingModule's training_session id`,
+	},
 	{
 		displayName: 'Training Session ID',
 		name: 'training_session_id',
@@ -62,7 +71,7 @@ const additionalFieldsSpeakersTrainingModules: INodeProperties[] = [
 		description: `speakersTrainingModule's training_module id`,
 	},
 	{
-		displayName: 'Speaker ID',
+		displayName: 'Speaker ID of speakersTrainingSession',
 		name: 'speaker_id',
 		type: 'string',
 		default: '',
@@ -145,7 +154,7 @@ export const speakersTrainingModuleFields: INodeProperties[] = [
 	},
 	{
 		displayName: 'Update Fields',
-		name: 'updateFields',
+		name: 'additionalFields',
 		type: 'collection',
 		description: 'The fields to update.',
 		placeholder: 'Add Field',
