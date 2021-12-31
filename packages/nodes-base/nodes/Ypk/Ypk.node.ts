@@ -503,7 +503,7 @@ export class Ypk implements INodeType {
 					const trainingSessionId = this.getNodeParameter('training_session_id', i, "") as string;
 
 					endpoint = `training_sessions/${trainingSessionId}/courses`;
-					dataKey = 'speakers_training_modules';
+					dataKey = 'courses';
 					method = 'GET';
 				}
 				/*
