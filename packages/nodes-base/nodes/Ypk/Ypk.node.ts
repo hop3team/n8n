@@ -23,6 +23,7 @@ import { speakersTrainingModuleFields, speakersTrainingModuleOperations } from '
 import { contactFields, contactOperations } from './Contact';
 import { companyFields, companyOperations } from './Company';
 import { annexCostFields, annexCostOperations } from "./AnnexCost";
+import { skillGroupFields, skillGroupOperations } from "./SkillGroup";
 
 interface YpkSettingType {
 	id: string;
@@ -100,6 +101,10 @@ export class Ypk implements INodeType {
 						name: 'SpeakersTrainingModule',
 						value: 'speakersTrainingModule',
 					},
+					{
+						name: 'SkillGroup',
+						value: 'skillGroup',
+					},
 				],
 				default: 'learner',
 				required: true,
@@ -117,6 +122,7 @@ export class Ypk implements INodeType {
 			...speakersTrainingSessionOperations,
 			...speakersTrainingModuleOperations,
 			...speakerOperations,
+			...skillGroupOperations,
 
 			// Fields
 			...annexCostFields,
@@ -129,6 +135,8 @@ export class Ypk implements INodeType {
 			...speakersTrainingSessionFields,
 			...speakersTrainingModuleFields,
 			...speakerFields,
+			...skillGroupFields,
+
 		],
 	};
 
@@ -503,7 +511,7 @@ export class Ypk implements INodeType {
 					const trainingSessionId = this.getNodeParameter('training_session_id', i, "") as string;
 
 					endpoint = `training_sessions/${trainingSessionId}/courses`;
-					dataKey = 'courses';
+					dataKey = 'speakers_training_modules';
 					method = 'GET';
 				}
 				/*
@@ -524,6 +532,19 @@ export class Ypk implements INodeType {
 				}
 
 				*/
+			}
+
+			if (resource === 'skillGroup') {
+				endpoint = 'training';
+				body = {};
+
+				if (operation === 'getAll') {
+					const trainingSessionId = this.getNodeParameter('training_id', i, "") as string;
+
+					endpoint = `trainings/${trainingSessionId}/skill_groups`;
+					dataKey = 'skill_groups';
+					method = 'GET';
+				}
 			}
 
 			if (resource === 'annexCost') {
