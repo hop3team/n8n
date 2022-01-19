@@ -39,6 +39,7 @@ export class Git implements INodeType {
 		description: 'Control git.',
 		defaults: {
 			name: 'Git',
+			color: '#808080',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

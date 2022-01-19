@@ -21,6 +21,7 @@ export class Postgres implements INodeType {
 		description: 'Get, add and update data in Postgres',
 		defaults: {
 			name: 'Postgres',
+			color: '#336791',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

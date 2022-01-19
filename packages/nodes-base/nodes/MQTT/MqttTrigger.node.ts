@@ -26,6 +26,7 @@ export class MqttTrigger implements INodeType {
 		description: 'Listens to MQTT events',
 		defaults: {
 			name: 'MQTT Trigger',
+			color: '#9b27af',
 		},
 		inputs: [],
 		outputs: ['main'],

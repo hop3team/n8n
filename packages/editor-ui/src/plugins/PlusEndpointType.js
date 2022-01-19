@@ -461,11 +461,6 @@
 			this.size = endpointStyle.size || this.size;
 			this.showOutputLabel = !!endpointStyle.showOutputLabel;
 
-			if (this.hoverMessage !== endpointStyle.hoverMessage) {
-				this.hoverMessage = endpointStyle.hoverMessage;
-				message.innerHTML = endpointStyle.hoverMessage;
-			}
-
 			if (this.size !== 'medium') {
 				container.classList.add(this.size);
 			}

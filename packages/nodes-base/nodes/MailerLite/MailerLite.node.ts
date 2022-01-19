@@ -32,6 +32,7 @@ export class MailerLite implements INodeType {
 		description: 'Consume Mailer Lite API',
 		defaults: {
 			name: 'MailerLite',
+			color: '#58be72',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

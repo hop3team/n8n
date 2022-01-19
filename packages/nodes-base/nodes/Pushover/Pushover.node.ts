@@ -29,6 +29,7 @@ export class Pushover implements INodeType {
 		description: 'Consume Pushover API',
 		defaults: {
 			name: 'Pushover',
+			color: '#4b9cea',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

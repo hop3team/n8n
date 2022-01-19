@@ -113,6 +113,7 @@ export class Keap implements INodeType {
 		description: 'Consume Keap API',
 		defaults: {
 			name: 'Keap',
+			color: '#79af53',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

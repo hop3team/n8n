@@ -74,6 +74,7 @@ export class Gmail implements INodeType {
 		description: 'Consume the Gmail API',
 		defaults: {
 			name: 'Gmail',
+			color: '#4285F4',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

@@ -30,6 +30,7 @@ export class TravisCi implements INodeType {
 		description: 'Consume TravisCI API',
 		defaults: {
 			name: 'TravisCI',
+			color: '#666666',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

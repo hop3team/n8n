@@ -1,10 +1,5 @@
-const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
-
 module.exports = {
-	chainWebpack: config => {
-		config.resolve.symlinks(false);
-		// config.plugins.delete("prefetch"); // enable when language package grows
-	},
+	chainWebpack: config => config.resolve.symlinks(false),
 	// transpileDependencies: [
 	//   // 'node_modules/quill'
 	//   /\/node_modules\/quill\//
@@ -13,20 +8,11 @@ module.exports = {
 		webpackBundleAnalyzer: {
 			openAnalyzer: false,
 		},
-		i18n: {
-			locale: "en",
-			fallbackLocale: "en",
-			localeDir: "./src/i18n/locales",
-			enableInSFC: false,
-		},
 	},
 	configureWebpack: {
 		devServer: {
 			disableHostCheck: true,
 		},
-		plugins: [
-			new MonacoWebpackPlugin({ languages: ['javascript', 'json', 'typescript'] }),
-		],
 	},
 	css: {
 		loaderOptions: {
@@ -37,5 +23,5 @@ module.exports = {
 			},
 		},
 	},
-	publicPath: process.env.VUE_APP_PUBLIC_PATH && process.env.VUE_APP_PUBLIC_PATH !== '/%BASE_PATH%/' ? process.env.VUE_APP_PUBLIC_PATH : '/',
+	publicPath: process.env.VUE_APP_PUBLIC_PATH ? process.env.VUE_APP_PUBLIC_PATH : '/',
 };

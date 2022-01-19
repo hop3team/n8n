@@ -3,7 +3,7 @@
 		:direction="direction"
 		:visible="visible"
 		:size="width"
-		:before-close="close"
+		:before-close="beforeClose"
 		:modal="modal"
 		:wrapperClosable="wrapperClosable"
 		>
@@ -11,9 +11,7 @@
 			<slot name="header" />
 		</template>
 		<template>
-			<span @keydown.stop>
-				<slot name="content"/>
-			</span>
+			<slot name="content"/>
 		</template>
 	</el-drawer>
 </template>
@@ -81,10 +79,6 @@ export default Vue.extend({
 			}
 		},
 		close() {
-			if (this.beforeClose) {
-				this.beforeClose();
-				return;
-			}
 			this.$store.commit('ui/closeTopModal');
 		},
 	},

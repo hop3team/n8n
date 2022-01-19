@@ -1,36 +1,19 @@
-<template>
+<template functional>
 	<div :class="$style.category">
-		<span :class="$style.name">
-			{{ renderCategoryName(categoryName) }}
-		</span>
+		<span :class="$style.name">{{ props.item.category }}</span>
 		<font-awesome-icon
 			:class="$style.arrow"
 			icon="chevron-down"
-			v-if="item.properties.expanded"
+			v-if="props.item.properties.expanded"
 		/>
 		<font-awesome-icon :class="$style.arrow" icon="chevron-up" v-else />
 	</div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import camelcase from 'lodash.camelcase';
-
-export default Vue.extend({
+export default {
 	props: ['item'],
-	computed: {
-		categoryName() {
-			return camelcase(this.item.category);
-		},
-	},
-	methods: {
-		renderCategoryName(categoryName: string) {
-			const key = `nodeCreator.categoryNames.${categoryName}`;
-
-			return this.$locale.exists(key) ? this.$locale.baseText(key) : categoryName;
-		},
-	},
-});
+};
 </script>
 
 

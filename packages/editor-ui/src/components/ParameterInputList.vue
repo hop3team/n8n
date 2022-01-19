@@ -16,7 +16,7 @@
 
 			<div v-else-if="parameter.type === 'notice'" class="parameter-item parameter-notice">
 				<n8n-text size="small">
-					<span v-html="$locale.nodeText().inputLabelDisplayName(parameter, path)"></span>
+					<span v-html="parameter.displayName"></span>
 				</n8n-text>
 			</div>
 
@@ -24,17 +24,17 @@
 				v-else-if="['collection', 'fixedCollection'].includes(parameter.type)"
 				class="multi-parameter"
 			>
-				<div class="delete-option clickable" :title="$locale.baseText('parameterInputList.delete')" v-if="hideDelete !== true && !isReadOnly">
+				<div class="delete-option clickable" title="Delete" v-if="hideDelete !== true && !isReadOnly">
 					<font-awesome-icon
 						icon="trash"
 						class="reset-icon clickable"
-						:title="$locale.baseText('parameterInputList.parameterOptions')"
+						title="Parameter Options"
 						@click="deleteOption(parameter.name)"
 					/>
 				</div>
 				<n8n-input-label
-					:label="$locale.nodeText().inputLabelDisplayName(parameter, path)"
-					:tooltipText="$locale.nodeText().inputLabelDescription(parameter, path)"
+					:label="parameter.displayName"
+					:tooltipText="parameter.description"
 					size="small"
 					:underline="true"
 					:labelHoverableOnly="true"
@@ -59,11 +59,11 @@
 			</div>
 
 			<div v-else-if="displayNodeParameter(parameter)" class="parameter-item">
-				<div class="delete-option clickable" :title="$locale.baseText('parameterInputList.delete')" v-if="hideDelete !== true && !isReadOnly">
+				<div class="delete-option clickable" title="Delete" v-if="hideDelete !== true && !isReadOnly">
 					<font-awesome-icon
 						icon="trash"
 						class="reset-icon clickable"
-						:title="$locale.baseText('parameterInputList.deleteParameter')"
+						title="Delete Parameter"
 						@click="deleteOption(parameter.name)"
 					/>
 				</div>

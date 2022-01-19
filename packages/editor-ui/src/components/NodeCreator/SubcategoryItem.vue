@@ -1,11 +1,9 @@
-<template>
+<template functional>
 	<div :class="$style.subcategory">
 		<div :class="$style.details">
-			<div :class="$style.title">
-				{{ $locale.baseText(`nodeCreator.subcategoryNames.${subcategoryName}`) }}
-			</div>
-			<div v-if="item.properties.description" :class="$style.description">
-				{{ $locale.baseText(`nodeCreator.subcategoryDescriptions.${subcategoryName}`) }}
+			<div :class="$style.title">{{ props.item.properties.subcategory }}</div>
+			<div v-if="props.item.properties.description" :class="$style.description">
+				{{ props.item.properties.description }}
 			</div>
 		</div>
 		<div :class="$style.action">
@@ -15,17 +13,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import camelcase from 'lodash.camelcase';
-
-export default Vue.extend({
+export default {
 	props: ['item'],
-	computed: {
-		subcategoryName() {
-			return camelcase(this.item.properties.subcategory);
-		},
-	},
-});
+};
 </script>
 
 

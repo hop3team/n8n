@@ -58,6 +58,7 @@ export class Discourse implements INodeType {
 		description: 'Consume Discourse API',
 		defaults: {
 			name: 'Discourse',
+			color: '#000000',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

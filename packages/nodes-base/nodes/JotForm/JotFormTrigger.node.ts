@@ -34,6 +34,7 @@ export class JotFormTrigger implements INodeType {
 		description: 'Handle JotForm events via webhooks',
 		defaults: {
 			name: 'JotForm Trigger',
+			color: '#fa8900',
 		},
 		inputs: [],
 		outputs: ['main'],

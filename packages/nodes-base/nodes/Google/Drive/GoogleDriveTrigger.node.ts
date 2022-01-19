@@ -31,6 +31,7 @@ export class GoogleDriveTrigger implements INodeType {
 		subtitle: '={{$parameter["event"]}}',
 		defaults: {
 			name: 'Google Drive Trigger',
+			color: '#4285F4',
 		},
 		credentials: [
 			{

@@ -108,6 +108,7 @@ export class Mandrill implements INodeType {
 		description: 'Consume Mandrill API',
 		defaults: {
 			name: 'Mandrill',
+			color: '#c02428',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

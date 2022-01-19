@@ -42,6 +42,7 @@ export class Cockpit implements INodeType {
 		description: 'Consume Cockpit API',
 		defaults: {
 			name: 'Cockpit',
+			color: '#000000',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

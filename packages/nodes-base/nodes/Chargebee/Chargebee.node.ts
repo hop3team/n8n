@@ -35,6 +35,7 @@ export class Chargebee implements INodeType {
 		description: 'Retrieve data from Chargebee API',
 		defaults: {
 			name: 'Chargebee',
+			color: '#22BB11',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

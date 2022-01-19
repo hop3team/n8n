@@ -82,6 +82,7 @@ export class Freshservice implements INodeType {
 		description: 'Consume the Freshservice API',
 		defaults: {
 			name: 'Freshservice',
+			color: '#08c7fb',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

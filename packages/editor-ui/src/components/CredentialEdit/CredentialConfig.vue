@@ -3,17 +3,17 @@
 		<banner
 			v-show="showValidationWarning"
 			theme="danger"
-			:message="$locale.baseText('credentialEdit.credentialConfig.pleaseCheckTheErrorsBelow')"
+			message="Please check the errors below"
 		/>
 
 		<banner
 			v-if="authError && !showValidationWarning"
 			theme="danger"
-			:message="$locale.baseText('credentialEdit.credentialConfig.couldntConnectWithTheseSettings')"
+			message="Couldn’t connect with these settings"
 			:details="authError"
-			:buttonLabel="$locale.baseText('credentialEdit.credentialConfig.retry')"
+			buttonLabel="Retry"
 			buttonLoadingLabel="Retrying"
-			:buttonTitle="$locale.baseText('credentialEdit.credentialConfig.retryCredentialTest')"
+			buttonTitle="Retry credentials test"
 			:buttonLoading="isRetesting"
 			@click="$emit('retest')"
 		/>
@@ -21,37 +21,35 @@
 		<banner
 			v-show="showOAuthSuccessBanner && !showValidationWarning"
 			theme="success"
-			:message="$locale.baseText('credentialEdit.credentialConfig.accountConnected')"
-			:buttonLabel="$locale.baseText('credentialEdit.credentialConfig.reconnect')"
-			:buttonTitle="$locale.baseText('credentialEdit.credentialConfig.reconnectOAuth2Credential')"
+			message="Account connected"
+			buttonLabel="Reconnect"
+			buttonTitle="Reconnect OAuth Credentials"
 			@click="$emit('oauth')"
 		/>
 
 		<banner
 			v-show="testedSuccessfully && !showValidationWarning"
 			theme="success"
-			:message="$locale.baseText('credentialEdit.credentialConfig.connectionTestedSuccessfully')"
-			:buttonLabel="$locale.baseText('credentialEdit.credentialConfig.retry')"
-			:buttonLoadingLabel="$locale.baseText('credentialEdit.credentialConfig.retrying')"
-			:buttonTitle="$locale.baseText('credentialEdit.credentialConfig.retryCredentialTest')"
+			message="Connection tested successfully"
+			buttonLabel="Retry"
+			buttonLoadingLabel="Retrying"
+			buttonTitle="Retry credentials test"
 			:buttonLoading="isRetesting"
 			@click="$emit('retest')"
 		/>
 
 		<n8n-info-tip v-if="documentationUrl && credentialProperties.length">
-			{{ $locale.baseText('credentialEdit.credentialConfig.needHelpFillingOutTheseFields') }}
-			<a :href="documentationUrl" target="_blank" @click="onDocumentationUrlClick">
-				{{ $locale.baseText('credentialEdit.credentialConfig.openDocs') }}
-			</a>
+			Need help filling out these fields?
+			<a :href="documentationUrl" target="_blank" @click="onDocumentationUrlClick">Open docs</a>
 		</n8n-info-tip>
 
 		<CopyInput
 			v-if="isOAuthType && credentialProperties.length"
-			:label="$locale.baseText('credentialEdit.credentialConfig.oAuthRedirectUrl')"
+			label="OAuth Redirect URL"
 			:copyContent="oAuthCallbackUrl"
-			:copyButtonText="$locale.baseText('credentialEdit.credentialConfig.clickToCopy')"
-			:subtitle="$locale.baseText('credentialEdit.credentialConfig.subtitle', { interpolate: { appName } })"
-			:successMessage="$locale.baseText('credentialEdit.credentialConfig.redirectUrlCopiedToClipboard')"
+			copyButtonText="Click to copy"
+			:subtitle="`In ${appName}, use the URL above when prompted to enter an OAuth callback or redirect URL`"
+			successMessage="Redirect URL copied to clipboard"
 		/>
 
 		<CredentialInputs
@@ -72,7 +70,7 @@
 </template>
 
 <script lang="ts">
-import { ICredentialType, INodeTypeDescription } from 'n8n-workflow';
+import { ICredentialType } from 'n8n-workflow';
 import { getAppNameFromCredType } from '../helpers';
 
 import Vue from 'vue';
@@ -80,11 +78,8 @@ import Banner from '../Banner.vue';
 import CopyInput from '../CopyInput.vue';
 import CredentialInputs from './CredentialInputs.vue';
 import OauthButton from './OauthButton.vue';
-import { restApi } from '@/components/mixins/restApi';
-import { addCredentialTranslation } from '@/plugins/i18n';
-import mixins from 'vue-typed-mixins';
 
-export default mixins(restApi).extend({
+export default Vue.extend({
 	name: 'CredentialConfig',
 	components: {
 		Banner,
@@ -94,7 +89,6 @@ export default mixins(restApi).extend({
 	},
 	props: {
 		credentialType: {
-			type: Object,
 		},
 		credentialProperties: {
 			type: Array,
@@ -127,35 +121,17 @@ export default mixins(restApi).extend({
 			type: Boolean,
 		},
 	},
-	async beforeMount() {
-		if (this.$store.getters.defaultLocale === 'en') return;
-
-		this.$store.commit('setActiveCredentialType', this.credentialType.name);
-
-		const key = `n8n-nodes-base.credentials.${this.credentialType.name}`;
-
-		if (this.$locale.exists(key)) return;
-
-		const credTranslation = await this.restApi().getCredentialTranslation(this.credentialType.name);
-
-		addCredentialTranslation(
-			{ [this.credentialType.name]: credTranslation },
-			this.$store.getters.defaultLocale,
-		);
-	},
 	computed: {
 		appName(): string {
 			if (!this.credentialType) {
 				return '';
 			}
 
-
-
 			const appName = getAppNameFromCredType(
 				(this.credentialType as ICredentialType).displayName,
 			);
 
-			return appName || this.$locale.baseText('credentialEdit.credentialConfig.theServiceYouReConnectingTo');
+			return appName || "the service you're connecting to";
 		},
 		credentialTypeName(): string {
 			return (this.credentialType as ICredentialType).name;
@@ -189,16 +165,6 @@ export default mixins(restApi).extend({
 		},
 	},
 	methods: {
-		/**
-		 * Get the current version for a node type.
-		 */
-		async getCurrentNodeVersion(targetNodeType: string) {
-			const { allNodeTypes }: { allNodeTypes: INodeTypeDescription[] } = this.$store.getters;
-			const found = allNodeTypes.find(nodeType => nodeType.name === targetNodeType);
-
-			return found ? found.version : 1;
-		},
-
 		onDataChange (event: { name: string; value: string | number | boolean | Date | null }): void {
 			this.$emit('change', event);
 		},

@@ -30,6 +30,7 @@ export class MauticTrigger implements INodeType {
 		description: 'Handle Mautic events via webhooks',
 		defaults: {
 			name: 'Mautic Trigger',
+			color: '#52619b',
 		},
 		inputs: [],
 		outputs: ['main'],

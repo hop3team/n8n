@@ -28,6 +28,7 @@ export class TimescaleDb implements INodeType {
 		description: 'Add and update data in TimescaleDB',
 		defaults: {
 			name: 'TimescaleDB',
+			color: '#fdb515',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

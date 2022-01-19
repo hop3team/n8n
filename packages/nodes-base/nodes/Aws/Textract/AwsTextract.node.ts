@@ -33,6 +33,7 @@ export class AwsTextract implements INodeType {
 		description: 'Sends data to Amazon Textract',
 		defaults: {
 			name: 'AWS Textract',
+			color: '#5aa08d',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

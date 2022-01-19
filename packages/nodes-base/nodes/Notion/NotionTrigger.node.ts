@@ -29,12 +29,12 @@ export class NotionTrigger implements INodeType {
 		subtitle: '={{$parameter["event"]}}',
 		defaults: {
 			name: 'Notion Trigger',
+			color: '#000000',
 		},
 		credentials: [
 			{
 				name: 'notionApi',
 				required: true,
-				testedBy: 'notionApiCredentialTest',
 			},
 		],
 		polling: true,
@@ -50,10 +50,10 @@ export class NotionTrigger implements INodeType {
 						name: 'Page Added to Database',
 						value: 'pageAddedToDatabase',
 					},
-					{
-						name: 'Paged Updated in Database',
-						value: 'pagedUpdatedInDatabase',
-					},
+					// {
+					// 	name: 'Record Updated',
+					// 	value: 'recordUpdated',
+					// },
 				],
 				required: true,
 				default: '',
@@ -69,28 +69,26 @@ export class NotionTrigger implements INodeType {
 					show: {
 						event: [
 							'pageAddedToDatabase',
-							'pagedUpdatedInDatabase',
 						],
 					},
 				},
 				default: '',
 				required: true,
-				description: 'The ID of this database',
+				description: 'The ID of this database.',
 			},
 			{
-				displayName: 'Simplify Output',
+				displayName: 'Simple',
 				name: 'simple',
 				type: 'boolean',
 				displayOptions: {
 					show: {
 						event: [
 							'pageAddedToDatabase',
-							'pagedUpdatedInDatabase',
 						],
 					},
 				},
 				default: true,
-				description: 'Whether to return a simplified version of the response instead of the raw data',
+				description: 'When set to true a simplify version of the response will be used else the raw data.',
 			},
 		],
 	};
@@ -151,7 +149,7 @@ export class NotionTrigger implements INodeType {
 
 		if (this.getMode() === 'manual') {
 			if (simple === true) {
-				data = simplifyObjects(data, false, 1);
+				data = simplifyObjects(data);
 			}
 			if (Array.isArray(data) && data.length) {
 				return [this.helpers.returnJsonArray(data)];
@@ -175,7 +173,7 @@ export class NotionTrigger implements INodeType {
 			}
 
 			if (simple === true) {
-				records = simplifyObjects(records, false, 1);
+				records = simplifyObjects(records);
 			}
 
 			webhookData.lastRecordProccesed = data[0].id;

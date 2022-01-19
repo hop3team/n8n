@@ -60,6 +60,7 @@ export class MonicaCrm implements INodeType {
 		description: 'Consume the Monica CRM API',
 		defaults: {
 			name: 'Monica CRM',
+			color: '#3cb371',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

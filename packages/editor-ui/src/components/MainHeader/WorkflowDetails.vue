@@ -33,7 +33,7 @@
 				@blur="onTagsBlur"
 				@update="onTagsUpdate"
 				@esc="onTagsEditEsc"
-				:placeholder="$locale.baseText('workflowDetails.chooseOrCreateATag')"
+				placeholder="Choose or create a tag"
 				ref="dropdown"
 				class="tags-edit"
 			/>
@@ -46,7 +46,7 @@
 				class="add-tag clickable"
 				@click="onTagsEditEnable"
 			>
-				+ {{ $locale.baseText('workflowDetails.addTag') }}
+				+ Add tag
 			</span>
 		</div>
 		<TagsContainer
@@ -62,7 +62,7 @@
 		<PushConnectionTracker class="actions">
 			<template>
 				<span class="activator">
-					<span>{{ $locale.baseText('workflowDetails.active') + ':' }}</span>
+					<span>Active:</span>
 					<WorkflowActivator :workflow-active="isWorkflowActive" :workflow-id="currentWorkflowId" :disabled="!currentWorkflowId"/>
 				</span>
 				<SaveButton
@@ -197,8 +197,8 @@ export default mixins(workflowHelpers).extend({
 			const newName = name.trim();
 			if (!newName) {
 				this.$showMessage({
-					title: this.$locale.baseText('workflowDetails.showMessage.title'),
-					message: this.$locale.baseText('workflowDetails.showMessage.message'),
+					title: "Name missing",
+					message: `Please enter a name, or press 'esc' to go back to the old one.`,
 					type: "error",
 				});
 

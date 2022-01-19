@@ -29,6 +29,7 @@ export class GoogleCloudNaturalLanguage implements INodeType {
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
 		defaults: {
 			name: 'Google Cloud Natural Language',
+			color: '#5288f0',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

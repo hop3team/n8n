@@ -1,4 +1,5 @@
 import {
+	BINARY_ENCODING,
 	IExecuteFunctions,
 } from 'n8n-core';
 
@@ -60,6 +61,7 @@ export class Cortex implements INodeType {
 		description: 'Apply the Cortex analyzer/responder on the given entity',
 		defaults: {
 			name: 'Cortex',
+			color: '#54c4c3',
 		},
 		inputs: ['main'],
 		outputs: ['main'],
@@ -241,7 +243,7 @@ export class Cortex implements INodeType {
 								throw new NodeOperationError(this.getNode(), `No binary data property "${binaryPropertyName}" does not exists on item!`);
 							}
 
-							const fileBufferData = await this.helpers.getBinaryDataBuffer(i, binaryPropertyName);
+							const fileBufferData = Buffer.from(item.binary[binaryPropertyName].data, BINARY_ENCODING);
 
 							const options = {
 								formData: {
@@ -424,7 +426,7 @@ export class Cortex implements INodeType {
 										throw new NodeOperationError(this.getNode(), `No binary data property "${binaryPropertyName}" does not exists on item!`);
 									}
 
-									const fileBufferData = await this.helpers.getBinaryDataBuffer(i, binaryPropertyName);
+									const fileBufferData = Buffer.from(item.binary[binaryPropertyName].data, BINARY_ENCODING);
 									const sha256 = createHash('sha256').update(fileBufferData).digest('hex');
 
 									(body.data as IDataObject).attachment = {

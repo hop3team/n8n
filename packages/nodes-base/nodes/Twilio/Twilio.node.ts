@@ -24,6 +24,7 @@ export class Twilio implements INodeType {
 		description: 'Send SMS and WhatsApp messages or make phone calls',
 		defaults: {
 			name: 'Twilio',
+			color: '#cf272d',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

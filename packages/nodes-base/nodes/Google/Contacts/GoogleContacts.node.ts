@@ -37,6 +37,7 @@ export class GoogleContacts implements INodeType {
 		description: 'Consume Google Contacts API',
 		defaults: {
 			name: 'Google Contacts',
+			color: '#1a73e8',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

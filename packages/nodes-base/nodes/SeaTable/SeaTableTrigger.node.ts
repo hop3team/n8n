@@ -36,6 +36,7 @@ export class SeaTableTrigger implements INodeType {
 		subtitle: '={{$parameter["event"]}}',
 		defaults: {
 			name: 'SeaTable Trigger',
+			color: '#FF8000',
 		},
 		credentials: [
 			{

@@ -5,7 +5,7 @@
 			element-loading-spinner="el-icon-loading"
 			:value="workflowActive"
 			@change="activeChanged"
-			:title="workflowActive ? $locale.baseText('workflowActivator.deactivateWorkflow') : $locale.baseText('workflowActivator.activateWorkflow')"
+			:title="workflowActive?'Deactivate Workflow':'Activate Workflow'"
 			:disabled="disabled || loading"
 			:active-color="getActiveColor"
 			inactive-color="#8899AA">
@@ -13,7 +13,7 @@
 
 		<div class="could-not-be-started" v-if="couldNotBeStarted">
 			<n8n-tooltip placement="top">
-				<div @click="displayActivationError" slot="content">{{ $locale.baseText('workflowActivator.theWorkflowIsSetToBeActiveBut') }}</div>
+				<div @click="displayActivationError" slot="content">The workflow is set to be active but could not be started.<br />Click to display error message.</div>
 				<font-awesome-icon @click="displayActivationError" icon="exclamation-triangle" />
 			</n8n-tooltip>
 		</div>
@@ -79,8 +79,8 @@ export default mixins(
 				async activeChanged (newActiveState: boolean) {
 					if (this.workflowId === undefined) {
 						this.$showMessage({
-							title: this.$locale.baseText('workflowActivator.showMessage.activeChangedWorkflowIdUndefined.title'),
-							message: this.$locale.baseText('workflowActivator.showMessage.activeChangedWorkflowIdUndefined.message'),
+							title: 'Problem activating workflow',
+							message: 'The workflow did not get saved yet so can not be set active!',
 							type: 'error',
 						});
 						return;
@@ -88,8 +88,8 @@ export default mixins(
 
 					if (this.nodesIssuesExist === true) {
 						this.$showMessage({
-							title: this.$locale.baseText('workflowActivator.showMessage.activeChangedNodesIssuesExistTrue.title'),
-							message: this.$locale.baseText('workflowActivator.showMessage.activeChangedNodesIssuesExistTrue.message'),
+							title: 'Problem activating workflow',
+							message: 'It is only possible to activate a workflow when all issues on all nodes got resolved!',
 							type: 'error',
 						});
 						return;
@@ -105,13 +105,7 @@ export default mixins(
 						// for people because it would activate a different version of the workflow
 						// than the one they can currently see.
 						if (this.dirtyState) {
-							const importConfirm = await this.confirmMessage(
-								this.$locale.baseText('workflowActivator.confirmMessage.message'),
-								this.$locale.baseText('workflowActivator.confirmMessage.headline'),
-								'warning',
-								this.$locale.baseText('workflowActivator.confirmMessage.confirmButtonText'),
-								this.$locale.baseText('workflowActivator.confirmMessage.cancelButtonText'),
-							);
+							const importConfirm = await this.confirmMessage(`When you activate the workflow all currently unsaved changes of the workflow will be saved.`, 'Activate and save?', 'warning', 'Yes, activate and save!');
 							if (importConfirm === false) {
 								return;
 							}
@@ -129,14 +123,7 @@ export default mixins(
 						await this.restApi().updateWorkflow(this.workflowId, data);
 					} catch (error) {
 						const newStateName = newActiveState === true ? 'activated' : 'deactivated';
-						this.$showError(
-							error,
-							this.$locale.baseText('workflowActivator.showError.title'),
-							this.$locale.baseText(
-								'workflowActivator.showError.message',
-								{ interpolate: { newStateName } },
-							) + ':',
-						);
+						this.$showError(error, 'Problem', `There was a problem and the workflow could not be ${newStateName}:`);
 						this.loading = false;
 						return;
 					}
@@ -169,19 +156,16 @@ export default mixins(
 						const errorData = await this.restApi().getActivationError(this.workflowId);
 
 						if (errorData === undefined) {
-							errorMessage = this.$locale.baseText('workflowActivator.showMessage.displayActivationError.message.errorDataUndefined');
+							errorMessage = 'Sorry there was a problem. No error got found to display.';
 						} else {
-							errorMessage = this.$locale.baseText(
-								'workflowActivator.showMessage.displayActivationError.message.errorDataNotUndefined',
-								{ interpolate: { message: errorData.error.message } },
-							);
+							errorMessage = `The following error occurred on workflow activation:<br /><i>${errorData.error.message}</i>`;
 						}
 					} catch (error) {
-						errorMessage = this.$locale.baseText('workflowActivator.showMessage.displayActivationError.message.catchBlock');
+						errorMessage = 'Sorry there was a problem requesting the error';
 					}
 
 					this.$showMessage({
-						title: this.$locale.baseText('workflowActivator.showMessage.displayActivationError.title'),
+						title: 'Problem activating workflow',
 						message: errorMessage,
 						type: 'warning',
 						duration: 0,

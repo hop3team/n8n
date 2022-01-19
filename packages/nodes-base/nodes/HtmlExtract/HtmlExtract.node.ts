@@ -240,9 +240,7 @@ export class HtmlExtract implements INodeType {
 					if (item.binary[dataPropertyName] === undefined) {
 						throw new NodeOperationError(this.getNode(), `No property named "${dataPropertyName}" exists!`);
 					}
-
-					const binaryDataBuffer = await this.helpers.getBinaryDataBuffer(itemIndex, dataPropertyName);
-					htmlArray = binaryDataBuffer.toString('utf-8');
+					htmlArray = Buffer.from(item.binary[dataPropertyName].data, 'base64').toString('utf8');
 				}
 
 				// Convert it always to array that it works with a string or an array of strings

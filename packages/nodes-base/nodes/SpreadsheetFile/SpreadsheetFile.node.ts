@@ -1,4 +1,7 @@
-import { IExecuteFunctions } from 'n8n-core';
+import {
+	BINARY_ENCODING,
+	IExecuteFunctions,
+} from 'n8n-core';
 
 import {
 	IDataObject,
@@ -343,7 +346,7 @@ export class SpreadsheetFile implements INodeType {
 					}
 
 					// Read the binary spreadsheet data
-					const binaryData = await this.helpers.getBinaryDataBuffer(i, binaryPropertyName);
+					const binaryData = Buffer.from(item.binary[binaryPropertyName].data, BINARY_ENCODING);
 					let workbook;
 					if (options.readAsString === true) {
 						workbook = xlsxRead(binaryData.toString(), { type: 'string', raw: options.rawData as boolean });

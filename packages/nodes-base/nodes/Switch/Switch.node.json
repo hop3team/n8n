@@ -31,8 +31,7 @@
 		"Filter",
 		"Condition",
 		"Logic",
-		"Branch",
-		"Case"
+		"Branch"
 	],
 	"subcategories": {
 		"Core Nodes": [

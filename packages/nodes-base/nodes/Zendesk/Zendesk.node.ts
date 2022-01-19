@@ -62,6 +62,7 @@ export class Zendesk implements INodeType {
 		description: 'Consume Zendesk API',
 		defaults: {
 			name: 'Zendesk',
+			color: '#13353c',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

@@ -146,7 +146,7 @@ export function getConditions(options: IDataObject) {
 	const conditions = (options.conditionsUi as IDataObject || {}).conditionValues as IDataObject[];
 	let data = undefined;
 	if (Array.isArray(conditions) && conditions.length !== 0) {
-		data = conditions.map((condition: IDataObject) => `${condition.field} ${(condition.operation) === 'equal' ? '=' : condition.operation} ${getValue(condition.value)}`);
+		data = conditions.map((condition: IDataObject) => `${condition.field}${(condition.operation) === 'equal' ? '=' : condition.operation}${getValue(condition.value)}`);
 		data = `WHERE ${data.join(' AND ')}`;
 	}
 	return data;
@@ -191,9 +191,7 @@ export function getQuery(options: IDataObject, sobject: string, returnAll: boole
 }
 
 export function getValue(value: any) { // tslint:disable-line:no-any
-	if (moment(value).isValid()) {
-		return value;
-	} else if (typeof value === 'string') {
+	if (typeof value === 'string') {
 		return `'${value}'`;
 	} else {
 		return value;

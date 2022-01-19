@@ -58,6 +58,7 @@ export class PagerDuty implements INodeType {
 		description: 'Consume PagerDuty API',
 		defaults: {
 			name: 'PagerDuty',
+			color: '#49a25f',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

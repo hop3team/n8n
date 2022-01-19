@@ -36,6 +36,7 @@ export class Github implements INodeType {
 		description: 'Consume GitHub API',
 		defaults: {
 			name: 'GitHub',
+			color: '#000000',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

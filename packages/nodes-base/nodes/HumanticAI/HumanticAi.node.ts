@@ -32,6 +32,7 @@ export class HumanticAi implements INodeType {
 		description: 'Consume Humantic AI API',
 		defaults: {
 			name: 'Humantic AI',
+			color: '#f8ce59',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

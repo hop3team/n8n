@@ -1,4 +1,7 @@
-import { IExecuteFunctions } from 'n8n-core';
+import {
+	BINARY_ENCODING,
+	IExecuteFunctions,
+} from 'n8n-core';
 import {
 	IDataObject,
 	ILoadOptionsFunctions,
@@ -24,6 +27,7 @@ export class LinkedIn implements INodeType {
 		description: 'Consume LinkedIn API',
 		defaults: {
 			name: 'LinkedIn',
+			color: '#0075b4',
 		},
 		inputs: ['main'],
 		outputs: ['main'],
@@ -146,7 +150,7 @@ export class LinkedIn implements INodeType {
 							}
 
 							// Buffer binary data
-							const buffer = await this.helpers.getBinaryDataBuffer(i, propertyNameUpload);
+							const buffer = Buffer.from(item.binary[propertyNameUpload].data, BINARY_ENCODING) as Buffer;
 							// Upload image
 							await linkedInApiRequest.call(this, 'POST', uploadUrl, buffer, true);
 

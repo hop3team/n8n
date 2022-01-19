@@ -25,6 +25,7 @@ export class PostmarkTrigger implements INodeType {
 		description: 'Starts the workflow when Postmark events occur',
 		defaults: {
 			name: 'Postmark Trigger',
+			color: '#fedd00',
 		},
 		inputs: [],
 		outputs: ['main'],

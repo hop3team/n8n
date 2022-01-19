@@ -41,6 +41,7 @@ export class Taiga implements INodeType {
 		description: 'Consume Taiga API',
 		defaults: {
 			name: 'Taiga',
+			color: '#772244',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

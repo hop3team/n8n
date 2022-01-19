@@ -24,6 +24,7 @@ export class QuestDb implements INodeType {
 		description: 'Get, add and update data in QuestDB',
 		defaults: {
 			name: 'QuestDB',
+			color: '#2C4A79',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

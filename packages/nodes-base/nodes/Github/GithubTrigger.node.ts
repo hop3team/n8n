@@ -28,6 +28,7 @@ export class GithubTrigger implements INodeType {
 		description: 'Starts the workflow when Github events occur',
 		defaults: {
 			name: 'Github Trigger',
+			color: '#000000',
 		},
 		inputs: [],
 		outputs: ['main'],

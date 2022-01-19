@@ -24,6 +24,7 @@ export class Mailcheck implements INodeType {
 		description: 'Consume Mailcheck API',
 		defaults: {
 			name: 'Mailcheck',
+			color: '#4f44d7',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

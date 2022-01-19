@@ -38,6 +38,7 @@ export class ItemLists implements INodeType {
 		description: 'Helper for working with lists of items and transforming arrays',
 		defaults: {
 			name: 'Item Lists',
+			color: '#ff6d5a',
 		},
 		inputs: ['main'],
 		outputs: ['main'],
@@ -985,7 +986,7 @@ return 0;`,
 						fieldName: string;
 						order: 'ascending' | 'descending'
 					}>;
-
+				
 
 					if (!sortFields || !sortFields.length) {
 						throw new NodeOperationError(this.getNode(), 'No sorting specified. Please add a field to sort by');

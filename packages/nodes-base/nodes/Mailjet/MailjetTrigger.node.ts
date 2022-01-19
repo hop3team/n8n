@@ -24,6 +24,7 @@ export class MailjetTrigger implements INodeType {
 		description: 'Handle Mailjet events via webhooks',
 		defaults: {
 			name: 'Mailjet Trigger',
+			color: '#ff9f48',
 		},
 		inputs: [],
 		outputs: ['main'],

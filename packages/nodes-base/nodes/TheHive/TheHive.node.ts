@@ -76,6 +76,7 @@ export class TheHive implements INodeType {
 		description: 'Consume TheHive API',
 		defaults: {
 			name: 'TheHive',
+			color: '#f3d02f',
 		},
 		inputs: ['main'],
 		outputs: ['main'],
@@ -234,7 +235,7 @@ export class TheHive implements INodeType {
 					'GET',
 					endpoint as string,
 				);
-
+				
 				let returnData: INodePropertyOptions[] = [];
 
 				if (version === 'v1') {
@@ -248,7 +249,7 @@ export class TheHive implements INodeType {
 				else {
 					returnData = Object.keys(dataTypes).map(key => {
 						const dataType = dataTypes[key] as string;
-
+						
 						return {
 							name: dataType,
 							value: dataType,
@@ -340,7 +341,7 @@ export class TheHive implements INodeType {
 					if (operation === 'count') {
 						const filters = this.getNodeParameter('filters', i, {}) as INodeParameters;
 						const countQueryAttributs: any = prepareOptional(filters); // tslint:disable-line:no-any
-
+						
 						const _countSearchQuery: IQueryObject = And();
 
 						if ('customFieldsUi' in filters) {
@@ -1410,7 +1411,7 @@ export class TheHive implements INodeType {
 
 						const filters = this.getNodeParameter('filters', i, {}) as INodeParameters;
 						const queryAttributs: any = prepareOptional(filters); // tslint:disable-line:no-any
-
+						
 						const _searchQuery: IQueryObject = And();
 
 						const options = this.getNodeParameter('options', i) as IDataObject;

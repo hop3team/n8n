@@ -107,7 +107,7 @@ export class ExecuteWorkflow implements INodeType {
 				type: 'string',
 				typeOptions: {
 					alwaysOpenEditWindow: true,
-					editor: 'json',
+					editor: 'code',
 					rows: 10,
 				},
 				displayOptions: {

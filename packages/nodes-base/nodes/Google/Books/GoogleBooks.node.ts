@@ -31,6 +31,7 @@ export class GoogleBooks implements INodeType {
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
 		defaults: {
 			name: 'Google Books',
+			color: '#4198e6',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

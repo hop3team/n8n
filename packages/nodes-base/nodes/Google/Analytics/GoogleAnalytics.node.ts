@@ -45,6 +45,7 @@ export class GoogleAnalytics implements INodeType {
 		description: 'Use the Google Analytics API',
 		defaults: {
 			name: 'Google Analytics',
+			color: '#772244',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

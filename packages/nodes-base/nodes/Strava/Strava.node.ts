@@ -32,6 +32,7 @@ export class Strava implements INodeType {
 		description: 'Consume Strava API',
 		defaults: {
 			name: 'Strava',
+			color: '#ea5929',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

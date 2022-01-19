@@ -31,9 +31,7 @@ export const workflowRun = mixins(
 			if (this.$store.getters.pushConnectionActive === false) {
 				// Do not start if the connection to server is not active
 				// because then it can not receive the data as it executes.
-				throw new Error(
-					this.$locale.baseText('workflowRun.noActiveConnectionToTheServer'),
-				);
+				throw new Error('No active connection to server. It is maybe down.');
 			}
 
 			this.$store.commit('addActiveAction', 'workflowRunning');
@@ -91,8 +89,8 @@ export const workflowRun = mixins(
 						}
 
 						this.$showMessage({
-							title: this.$locale.baseText('workflowRun.showMessage.title'),
-							message: this.$locale.baseText('workflowRun.showMessage.message') + ':<br />&nbsp;&nbsp;- ' + errorMessages.join('<br />&nbsp;&nbsp;- '),
+							title: 'Workflow can not be executed',
+							message: 'The workflow has issues. Please fix them first:<br />&nbsp;&nbsp;- ' + errorMessages.join('<br />&nbsp;&nbsp;- '),
 							type: 'error',
 							duration: 0,
 						});
@@ -202,11 +200,7 @@ export const workflowRun = mixins(
 				 return runWorkflowApiResponse;
 			} catch (error) {
 				this.$titleSet(workflow.name as string, 'ERROR');
-				this.$showError(
-					error,
-					this.$locale.baseText('workflowRun.showError.title'),
-					this.$locale.baseText('workflowRun.showError.message'),
-				);
+				this.$showError(error, 'Problem running workflow', 'There was a problem running the workflow:');
 				return undefined;
 			}
 		},

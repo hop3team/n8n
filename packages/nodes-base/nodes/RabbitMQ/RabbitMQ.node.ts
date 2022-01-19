@@ -27,6 +27,7 @@ export class RabbitMQ implements INodeType {
 		description: 'Sends messages to a RabbitMQ topic',
 		defaults: {
 			name: 'RabbitMQ',
+			color: '#ff6600',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

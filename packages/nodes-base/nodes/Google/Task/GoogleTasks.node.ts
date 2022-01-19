@@ -32,6 +32,7 @@ export class GoogleTasks implements INodeType {
 		description: 'Consume Google Tasks API',
 		defaults: {
 			name: 'Google Tasks',
+			color: '#3E87E4',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

@@ -1,5 +1,4 @@
 /* eslint-disable import/no-cycle */
-import { INodeTypes } from 'n8n-workflow';
 import { InternalHooksClass } from './InternalHooks';
 import { Telemetry } from './telemetry';
 
@@ -14,12 +13,11 @@ export class InternalHooksManager {
 		throw new Error('InternalHooks not initialized');
 	}
 
-	static init(instanceId: string, versionCli: string, nodeTypes: INodeTypes): InternalHooksClass {
+	static init(instanceId: string, versionCli: string): InternalHooksClass {
 		if (!this.internalHooksInstance) {
 			this.internalHooksInstance = new InternalHooksClass(
 				new Telemetry(instanceId, versionCli),
 				versionCli,
-				nodeTypes,
 			);
 		}
 

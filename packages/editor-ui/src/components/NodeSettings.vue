@@ -5,35 +5,26 @@
 				<display-with-change :key-name="'name'" @valueChanged="valueChanged"></display-with-change>
 				<a v-if="nodeType" :href="'http://n8n.io/nodes/' + nodeType.name" target="_blank" class="node-info">
 					<n8n-tooltip class="clickable" placement="top" >
-						<div slot="content" v-html="`<strong>${$locale.baseText('nodeSettings.nodeDescription')}:</strong><br />` + nodeTypeDescription + `<br /><br /><strong>${$locale.baseText('nodeSettings.clickOnTheQuestionMarkIcon')}</strong>`"></div>
+						<div slot="content" v-html="'<strong>Node Description:</strong><br />' + nodeTypeDescription + '<br /><br /><strong>Click the \'?\' icon to open this node on n8n.io </strong>'"></div>
 						<font-awesome-icon icon="question-circle" />
 					</n8n-tooltip>
 				</a>
 			</span>
 		</div>
 		<div class="node-is-not-valid" v-if="node && !nodeValid">
-			<n8n-text>
-				{{
-					$locale.baseText(
-						'nodeSettings.theNodeIsNotValidAsItsTypeIsUnknown',
-						{ interpolate: { nodeType: node.type } },
-					)
-				}}
-			</n8n-text>
+			<n8n-text>The node is not valid as its type "{{node.type}}" is unknown.</n8n-text>
 		</div>
 		<div class="node-parameters-wrapper" v-if="node && nodeValid">
 			<el-tabs stretch @tab-click="handleTabClick">
-				<el-tab-pane :label="$locale.baseText('nodeSettings.parameters')">
+				<el-tab-pane label="Parameters">
 					<node-credentials :node="node" @credentialSelected="credentialSelected"></node-credentials>
 					<node-webhooks :node="node" :nodeType="nodeType" />
 					<parameter-input-list :parameters="parametersNoneSetting" :hideDelete="true" :nodeValues="nodeValues" path="parameters" @valueChanged="valueChanged" />
 					<div v-if="parametersNoneSetting.length === 0" class="no-parameters">
-						<n8n-text>
-						{{ $locale.baseText('nodeSettings.thisNodeDoesNotHaveAnyParameters') }}
-						</n8n-text>
+						<n8n-text>This node does not have any parameters.</n8n-text>
 					</div>
 				</el-tab-pane>
-				<el-tab-pane :label="$locale.baseText('nodeSettings.settings')">
+				<el-tab-pane label="Settings">
 					<parameter-input-list :parameters="nodeSettings" :hideDelete="true" :nodeValues="nodeValues" path="" @valueChanged="valueChanged" />
 					<parameter-input-list :parameters="parametersSetting" :nodeValues="nodeValues" path="parameters" @valueChanged="valueChanged" />
 				</el-tab-pane>
@@ -95,28 +86,11 @@ export default mixins(
 
 				return null;
 			},
-			nodeTypeName(): string {
-				if (this.nodeType) {
-					const shortNodeType = this.$locale.shortNodeType(this.nodeType.name);
-
-					return this.$locale.headerText({
-						key: `headers.${shortNodeType}.displayName`,
-						fallback: this.nodeType.name,
-					});
-				}
-
-				return '';
-			},
 			nodeTypeDescription (): string {
 				if (this.nodeType && this.nodeType.description) {
-					const shortNodeType = this.$locale.shortNodeType(this.nodeType.name);
-
-					return this.$locale.headerText({
-						key: `headers.${shortNodeType}.description`,
-						fallback: this.nodeType.description,
-					});
+					return this.nodeType.description;
 				} else {
-					return this.$locale.baseText('nodeSettings.noDescriptionFound');
+					return 'No description found';
 				}
 			},
 			headerStyle (): object {
@@ -171,7 +145,7 @@ export default mixins(
 
 				nodeSettings: [
 					{
-						displayName: this.$locale.baseText('nodeSettings.notes.displayName'),
+						displayName: 'Notes',
 						name: 'notes',
 						type: 'string',
 						typeOptions: {
@@ -179,42 +153,42 @@ export default mixins(
 						},
 						default: '',
 						noDataExpression: true,
-						description: this.$locale.baseText('nodeSettings.notes.description'),
+						description: 'Optional note to save with the node.',
 					},
 					{
-						displayName: this.$locale.baseText('nodeSettings.notesInFlow.displayName'),
+						displayName: 'Display note in flow?',
 						name: 'notesInFlow',
 						type: 'boolean',
 						default: false,
 						noDataExpression: true,
-						description: this.$locale.baseText('nodeSettings.notesInFlow.description'),
+						description: 'If active, the note above will display in the flow as a subtitle.',
 					},
 					{
-						displayName: this.$locale.baseText('nodeSettings.alwaysOutputData.displayName'),
+						displayName: 'Always Output Data',
 						name: 'alwaysOutputData',
 						type: 'boolean',
 						default: false,
 						noDataExpression: true,
-						description: this.$locale.baseText('nodeSettings.alwaysOutputData.description'),
+						description: 'If active, the node will return an empty item even if the <br />node returns no data during an initial execution. Be careful setting <br />this on IF-Nodes as it could cause an infinite loop.',
 					},
 					{
-						displayName: this.$locale.baseText('nodeSettings.executeOnce.displayName'),
+						displayName: 'Execute Once',
 						name: 'executeOnce',
 						type: 'boolean',
 						default: false,
 						noDataExpression: true,
-						description: this.$locale.baseText('nodeSettings.executeOnce.description'),
+						description: 'If active, the node executes only once, with data<br /> from the first item it recieves. ',
 					},
 					{
-						displayName: this.$locale.baseText('nodeSettings.retryOnFail.displayName'),
+						displayName: 'Retry On Fail',
 						name: 'retryOnFail',
 						type: 'boolean',
 						default: false,
 						noDataExpression: true,
-						description: this.$locale.baseText('nodeSettings.retryOnFail.description'),
+						description: 'If active, the node tries to execute a failed attempt <br /> multiple times until it succeeds.',
 					},
 					{
-						displayName: this.$locale.baseText('nodeSettings.maxTries.displayName'),
+						displayName: 'Max. Tries',
 						name: 'maxTries',
 						type: 'number',
 						typeOptions: {
@@ -230,10 +204,10 @@ export default mixins(
 							},
 						},
 						noDataExpression: true,
-						description: this.$locale.baseText('nodeSettings.maxTries.description'),
+						description: 'Number of times Retry On Fail should attempt to execute the node <br />before stopping and returning the execution as failed.',
 					},
 					{
-						displayName: this.$locale.baseText('nodeSettings.waitBetweenTries.displayName'),
+						displayName: 'Wait Between Tries',
 						name: 'waitBetweenTries',
 						type: 'number',
 						typeOptions: {
@@ -249,15 +223,15 @@ export default mixins(
 							},
 						},
 						noDataExpression: true,
-						description: this.$locale.baseText('nodeSettings.waitBetweenTries.description'),
+						description: 'How long to wait between each attempt. Value in ms.',
 					},
 					{
-						displayName: this.$locale.baseText('nodeSettings.continueOnFail.displayName'),
+						displayName: 'Continue On Fail',
 						name: 'continueOnFail',
 						type: 'boolean',
 						default: false,
 						noDataExpression: true,
-						description: this.$locale.baseText('nodeSettings.continueOnFail.description'),
+						description: 'If active, the workflow continues even if this node\'s <br />execution fails. When this occurs, the node passes along input data from<br />previous nodes - so your workflow should account for unexpected output data.',
 					},
 				] as INodeProperties[],
 

@@ -31,6 +31,7 @@ export class GoogleTranslate implements INodeType {
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
 		defaults: {
 			name: 'Google Translate',
+			color: '#5390f5',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

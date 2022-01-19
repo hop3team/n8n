@@ -114,6 +114,7 @@ export class ClickUp implements INodeType {
 		description: 'Consume ClickUp API (Beta)',
 		defaults: {
 			name: 'ClickUp',
+			color: '#7B68EE',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

@@ -51,6 +51,7 @@ export class SeaTable implements INodeType {
 		description: 'Consume the SeaTable API',
 		defaults: {
 			name: 'SeaTable',
+			color: '#FF8000',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

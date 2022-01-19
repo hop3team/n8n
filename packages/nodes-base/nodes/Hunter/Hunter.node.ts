@@ -23,6 +23,7 @@ export class Hunter implements INodeType {
 		description: 'Consume Hunter API',
 		defaults: {
 			name: 'Hunter',
+			color: '#ff3807',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

@@ -23,6 +23,7 @@ export class OneSimpleApi implements INodeType {
 		description: 'A toolbox of no-code utilities',
 		defaults: {
 			name: 'One Simple API',
+			color: '#1A82e2',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

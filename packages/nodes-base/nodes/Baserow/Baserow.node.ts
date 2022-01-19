@@ -42,6 +42,7 @@ export class Baserow implements INodeType {
 		subtitle: '={{$parameter["operation"] + ":" + $parameter["resource"]}}',
 		defaults: {
 			name: 'Baserow',
+			color: '#00a2ce',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

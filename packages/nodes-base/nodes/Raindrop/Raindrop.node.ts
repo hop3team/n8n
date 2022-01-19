@@ -43,6 +43,7 @@ export class Raindrop implements INodeType {
 		description: 'Consume the Raindrop API',
 		defaults: {
 			name: 'Raindrop',
+			color: '#1988e0',
 		},
 		inputs: ['main'],
 		outputs: ['main'],
@@ -215,10 +216,7 @@ export class Raindrop implements INodeType {
 							};
 							delete updateFields.collectionId;
 						}
-						if (updateFields.pleaseParse === true) {
-							body.pleaseParse = {};
-							delete updateFields.pleaseParse;
-						}
+
 						if (updateFields.tags) {
 							body.tags = (updateFields.tags as string).split(',').map(tag => tag.trim()) as string[];
 						}

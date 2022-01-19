@@ -50,6 +50,7 @@ export class PostHog implements INodeType {
 		description: 'Consume PostHog API',
 		defaults: {
 			name: 'PostHog',
+			color: '#000000',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

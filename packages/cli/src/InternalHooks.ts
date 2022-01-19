@@ -1,23 +1,18 @@
 /* eslint-disable import/no-cycle */
-import { BinaryDataManager } from 'n8n-core';
-import { IDataObject, INodeTypes, IRun, TelemetryHelpers } from 'n8n-workflow';
+import { IDataObject, IRun, TelemetryHelpers } from 'n8n-workflow';
 import {
 	IDiagnosticInfo,
 	IInternalHooksClass,
 	IPersonalizationSurveyAnswers,
 	IWorkflowBase,
-	IWorkflowDb,
 } from '.';
 import { Telemetry } from './telemetry';
 
 export class InternalHooksClass implements IInternalHooksClass {
 	private versionCli: string;
 
-	private nodeTypes: INodeTypes;
-
-	constructor(private telemetry: Telemetry, versionCli: string, nodeTypes: INodeTypes) {
+	constructor(private telemetry: Telemetry, versionCli: string) {
 		this.versionCli = versionCli;
-		this.nodeTypes = nodeTypes;
 	}
 
 	async onServerStarted(
@@ -33,7 +28,6 @@ export class InternalHooksClass implements IInternalHooksClass {
 			system_info: diagnosticInfo.systemInfo,
 			execution_variables: diagnosticInfo.executionVariables,
 			n8n_deployment_type: diagnosticInfo.deploymentType,
-			n8n_binary_data_mode: diagnosticInfo.binaryDataMode,
 		};
 
 		return Promise.all([
@@ -57,7 +51,7 @@ export class InternalHooksClass implements IInternalHooksClass {
 	}
 
 	async onWorkflowCreated(workflow: IWorkflowBase): Promise<void> {
-		const { nodeGraph } = TelemetryHelpers.generateNodesGraph(workflow, this.nodeTypes);
+		const { nodeGraph } = TelemetryHelpers.generateNodesGraph(workflow);
 		return this.telemetry.track('User created workflow', {
 			workflow_id: workflow.id,
 			node_graph: nodeGraph,
@@ -71,24 +65,18 @@ export class InternalHooksClass implements IInternalHooksClass {
 		});
 	}
 
-	async onWorkflowSaved(workflow: IWorkflowDb): Promise<void> {
-		const { nodeGraph } = TelemetryHelpers.generateNodesGraph(workflow, this.nodeTypes);
+	async onWorkflowSaved(workflow: IWorkflowBase): Promise<void> {
+		const { nodeGraph } = TelemetryHelpers.generateNodesGraph(workflow);
 
 		return this.telemetry.track('User saved workflow', {
 			workflow_id: workflow.id,
 			node_graph: nodeGraph,
 			node_graph_string: JSON.stringify(nodeGraph),
 			version_cli: this.versionCli,
-			num_tags: workflow.tags.length,
 		});
 	}
 
-	async onWorkflowPostExecute(
-		executionId: string,
-		workflow: IWorkflowBase,
-		runData?: IRun,
-	): Promise<void> {
-		const promises = [Promise.resolve()];
+	async onWorkflowPostExecute(workflow: IWorkflowBase, runData?: IRun): Promise<void> {
 		const properties: IDataObject = {
 			workflow_id: workflow.id,
 			is_manual: false,
@@ -97,10 +85,11 @@ export class InternalHooksClass implements IInternalHooksClass {
 
 		if (runData !== undefined) {
 			properties.execution_mode = runData.mode;
-			properties.success = !!runData.finished;
-			properties.is_manual = runData.mode === 'manual';
+			if (runData.mode === 'manual') {
+				properties.is_manual = true;
+			}
 
-			let nodeGraphResult;
+			properties.success = !!runData.finished;
 
 			if (!properties.success && runData?.data.resultData.error) {
 				properties.error_message = runData?.data.resultData.error.message;
@@ -120,7 +109,7 @@ export class InternalHooksClass implements IInternalHooksClass {
 				}
 
 				if (properties.is_manual) {
-					nodeGraphResult = TelemetryHelpers.generateNodesGraph(workflow, this.nodeTypes);
+					const nodeGraphResult = TelemetryHelpers.generateNodesGraph(workflow);
 					properties.node_graph = nodeGraphResult.nodeGraph;
 					properties.node_graph_string = JSON.stringify(nodeGraphResult.nodeGraph);
 
@@ -129,54 +118,9 @@ export class InternalHooksClass implements IInternalHooksClass {
 					}
 				}
 			}
-
-			if (properties.is_manual) {
-				if (!nodeGraphResult) {
-					nodeGraphResult = TelemetryHelpers.generateNodesGraph(workflow, this.nodeTypes);
-				}
-
-				const manualExecEventProperties = {
-					workflow_id: workflow.id,
-					status: properties.success ? 'success' : 'failed',
-					error_message: properties.error_message,
-					error_node_type: properties.error_node_type,
-					node_graph: properties.node_graph,
-					node_graph_string: properties.node_graph_string,
-					error_node_id: properties.error_node_id,
-				};
-
-				if (!manualExecEventProperties.node_graph) {
-					nodeGraphResult = TelemetryHelpers.generateNodesGraph(workflow, this.nodeTypes);
-					manualExecEventProperties.node_graph = nodeGraphResult.nodeGraph;
-					manualExecEventProperties.node_graph_string = JSON.stringify(
-						manualExecEventProperties.node_graph,
-					);
-				}
-
-				if (runData.data.startData?.destinationNode) {
-					promises.push(
-						this.telemetry.track('Manual node exec finished', {
-							...manualExecEventProperties,
-							node_type: TelemetryHelpers.getNodeTypeForName(
-								workflow,
-								runData.data.startData?.destinationNode,
-							)?.type,
-							node_id: nodeGraphResult.nameIndices[runData.data.startData?.destinationNode],
-						}),
-					);
-				} else {
-					promises.push(
-						this.telemetry.track('Manual workflow exec finished', manualExecEventProperties),
-					);
-				}
-			}
 		}
 
-		return Promise.all([
-			...promises,
-			BinaryDataManager.getInstance().persistBinaryDataForExecutionId(executionId),
-			this.telemetry.trackWorkflowExecution(properties),
-		]).then(() => {});
+		return this.telemetry.trackWorkflowExecution(properties);
 	}
 
 	async onN8nStop(): Promise<void> {

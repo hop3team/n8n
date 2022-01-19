@@ -12,7 +12,6 @@ import {
 } from 'n8n-workflow';
 
 import {
-	FormatDueDatetime,
 	todoistApiRequest,
 } from './GenericFunctions';
 
@@ -43,6 +42,7 @@ export class Todoist implements INodeType {
 		description: 'Consume Todoist API',
 		defaults: {
 			name: 'Todoist',
+			color: '#c02428',
 		},
 		inputs: ['main'],
 		outputs: ['main'],
@@ -277,17 +277,11 @@ export class Todoist implements INodeType {
 						description: 'Human defined task due date (ex.: “next Monday”, “Tomorrow”). Value is set using local (not UTC) time.',
 					},
 					{
-						displayName: 'Due String Locale',
-						name: 'dueLang',
-						type: 'string',
-						default: '',
-						description: '2-letter code specifying language in case due_string is not written in English.',
-					},
-					{
 						displayName: 'Priority',
 						name: 'priority',
 						type: 'number',
 						typeOptions: {
+							numberStepSize: 1,
 							maxValue: 4,
 							minValue: 1,
 						},
@@ -456,13 +450,6 @@ export class Todoist implements INodeType {
 						description: 'Human defined task due date (ex.: “next Monday”, “Tomorrow”). Value is set using local (not UTC) time.',
 					},
 					{
-						displayName: 'Due String Locale',
-						name: 'dueLang',
-						type: 'string',
-						default: '',
-						description: '2-letter code specifying language in case due_string is not written in English.',
-					},
-					{
 						displayName: 'Labels',
 						name: 'labels',
 						type: 'multiOptions',
@@ -478,6 +465,7 @@ export class Todoist implements INodeType {
 						name: 'priority',
 						type: 'number',
 						typeOptions: {
+							numberStepSize: 1,
 							maxValue: 4,
 							minValue: 1,
 						},
@@ -585,15 +573,11 @@ export class Todoist implements INodeType {
 						}
 
 						if (options.dueDateTime) {
-							body.due_datetime = FormatDueDatetime(options.dueDateTime as string);
+							body.due_datetime = options.dueDateTime as string;
 						}
 
 						if (options.dueString) {
 							body.due_string = options.dueString as string;
-						}
-
-						if (options.dueLang) {
-							body.due_lang = options.dueLang as string;
 						}
 
 						if (labels !== undefined && labels.length !== 0) {
@@ -686,15 +670,11 @@ export class Todoist implements INodeType {
 						}
 
 						if (updateFields.dueDateTime) {
-							body.due_datetime = FormatDueDatetime(updateFields.dueDateTime as string);
+							body.due_datetime = updateFields.dueDateTime as string;
 						}
 
 						if (updateFields.dueString) {
 							body.due_string = updateFields.dueString as string;
-						}
-
-						if (updateFields.dueLang) {
-							body.due_lang = updateFields.dueLang as string;
 						}
 
 						if (updateFields.labels !== undefined &&

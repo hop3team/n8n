@@ -51,6 +51,7 @@ export class Grist implements INodeType {
 		description: 'Consume the Grist API',
 		defaults: {
 			name: 'Grist',
+			color: '#394650',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

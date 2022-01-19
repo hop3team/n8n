@@ -8,7 +8,9 @@
 			"jest"
 		],
 		"module": "commonjs",
+		"noImplicitAny": true,
 		"removeComments": true,
+		"strictNullChecks": true,
 		"forceConsistentCasingInFileNames": true,
 		"noImplicitReturns": true,
 		"strict": true,

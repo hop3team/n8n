@@ -24,6 +24,7 @@ export class BoxTrigger implements INodeType {
 		description: 'Starts the workflow when Box events occur',
 		defaults: {
 			name: 'Box Trigger',
+			color: '#00aeef',
 		},
 		inputs: [],
 		outputs: ['main'],

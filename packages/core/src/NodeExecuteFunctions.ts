@@ -59,8 +59,6 @@ import { stringify } from 'qs';
 import * as clientOAuth1 from 'oauth-1.0a';
 import { Token } from 'oauth-1.0a';
 import * as clientOAuth2 from 'client-oauth2';
-import * as crypto from 'crypto';
-import * as url from 'url';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { get } from 'lodash';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -73,17 +71,11 @@ import { createHmac } from 'crypto';
 import { fromBuffer } from 'file-type';
 import { lookup } from 'mime-types';
 
-import axios, {
-	AxiosPromise,
-	AxiosProxyConfig,
-	AxiosRequestConfig,
-	AxiosResponse,
-	Method,
-} from 'axios';
+import axios, { AxiosProxyConfig, AxiosRequestConfig, Method } from 'axios';
 import { URL, URLSearchParams } from 'url';
-import { BinaryDataManager } from './BinaryDataManager';
 // eslint-disable-next-line import/no-cycle
 import {
+	BINARY_ENCODING,
 	ICredentialTestFunctions,
 	IHookFunctions,
 	ILoadOptionsFunctions,
@@ -478,49 +470,6 @@ async function parseRequestObject(requestObject: IDataObject) {
 	return axiosConfig;
 }
 
-function digestAuthAxiosConfig(
-	axiosConfig: AxiosRequestConfig,
-	response: AxiosResponse,
-	auth: AxiosRequestConfig['auth'],
-): AxiosRequestConfig {
-	const authDetails = response.headers['www-authenticate']
-		.split(',')
-		.map((v: string) => v.split('='));
-	if (authDetails) {
-		const nonceCount = `000000001`;
-		const cnonce = crypto.randomBytes(24).toString('hex');
-		const realm: string = authDetails
-			.find((el: any) => el[0].toLowerCase().indexOf('realm') > -1)[1]
-			.replace(/"/g, '');
-		const nonce: string = authDetails
-			.find((el: any) => el[0].toLowerCase().indexOf('nonce') > -1)[1]
-			.replace(/"/g, '');
-		const ha1 = crypto
-			.createHash('md5')
-			.update(`${auth?.username as string}:${realm}:${auth?.password as string}`)
-			.digest('hex');
-		const path = new url.URL(axiosConfig.url!).pathname;
-		const ha2 = crypto
-			.createHash('md5')
-			.update(`${axiosConfig.method ?? 'GET'}:${path}`)
-			.digest('hex');
-		const response = crypto
-			.createHash('md5')
-			.update(`${ha1}:${nonce}:${nonceCount}:${cnonce}:auth:${ha2}`)
-			.digest('hex');
-		const authorization =
-			`Digest username="${auth?.username as string}",realm="${realm}",` +
-			`nonce="${nonce}",uri="${path}",qop="auth",algorithm="MD5",` +
-			`response="${response}",nc="${nonceCount}",cnonce="${cnonce}"`;
-		if (axiosConfig.headers) {
-			axiosConfig.headers.authorization = authorization;
-		} else {
-			axiosConfig.headers = { authorization };
-		}
-	}
-	return axiosConfig;
-}
-
 async function proxyRequestToAxios(
 	uriOrObject: string | IDataObject,
 	options?: IDataObject,
@@ -534,13 +483,8 @@ async function proxyRequestToAxios(
 	}
 
 	let axiosConfig: AxiosRequestConfig = {};
-	let axiosPromise: AxiosPromise;
-	type ConfigObject = {
-		auth?: { sendImmediately: boolean };
-		resolveWithFullResponse?: boolean;
-		simple?: boolean;
-	};
-	let configObject: ConfigObject;
+
+	let configObject: IDataObject;
 	if (uriOrObject !== undefined && typeof uriOrObject === 'string') {
 		axiosConfig.url = uriOrObject;
 	}
@@ -552,41 +496,13 @@ async function proxyRequestToAxios(
 
 	axiosConfig = Object.assign(axiosConfig, await parseRequestObject(configObject));
 
-	Logger.debug(
-		'Proxying request to axios',
-		// {
-		// 	originalConfig: configObject,
-		// 	parsedConfig: axiosConfig,
-		// }
-	);
-
-	if (configObject.auth?.sendImmediately === false) {
-		// for digest-auth
-		const { auth } = axiosConfig;
-		delete axiosConfig.auth;
-		// eslint-disable-next-line no-async-promise-executor
-		axiosPromise = new Promise(async (resolve, reject) => {
-			try {
-				const result = await axios(axiosConfig);
-				resolve(result);
-			} catch (resp: any) {
-				if (
-					resp.response === undefined ||
-					resp.response.status !== 401 ||
-					!resp.response.headers['www-authenticate']?.includes('nonce')
-				) {
-					reject(resp);
-				}
-				axiosConfig = digestAuthAxiosConfig(axiosConfig, resp.response, auth);
-				resolve(axios(axiosConfig));
-			}
-		});
-	} else {
-		axiosPromise = axios(axiosConfig);
-	}
+	Logger.debug('Proxying request to axios', {
+		originalConfig: configObject,
+		parsedConfig: axiosConfig,
+	});
 
 	return new Promise((resolve, reject) => {
-		axiosPromise
+		axios(axiosConfig)
 			.then((response) => {
 				if (configObject.resolveWithFullResponse === true) {
 					let body = response.data;
@@ -632,15 +548,10 @@ async function proxyRequestToAxios(
 				}
 
 				Logger.debug('Request proxied to Axios failed', { error });
-
 				// Axios hydrates the original error with more data. We extract them.
 				// https://github.com/axios/axios/blob/master/lib/core/enhanceError.js
 				// Note: `code` is ignored as it's an expected part of the errorData.
 				const { request, response, isAxiosError, toJSON, config, ...errorData } = error;
-				if (response) {
-					error.message = `${response.status as number} - ${JSON.stringify(response.data)}`;
-				}
-
 				error.cause = errorData;
 				error.error = error.response?.data || errorData;
 				error.statusCode = error.response?.status;
@@ -766,7 +677,7 @@ export async function getBinaryDataBuffer(
 	inputIndex: number,
 ): Promise<Buffer> {
 	const binaryData = inputData.main![inputIndex]![itemIndex]!.binary![propertyName]!;
-	return BinaryDataManager.getInstance().retrieveBinaryData(binaryData);
+	return Buffer.from(binaryData.data, BINARY_ENCODING);
 }
 
 /**
@@ -781,7 +692,6 @@ export async function getBinaryDataBuffer(
  */
 export async function prepareBinaryData(
 	binaryData: Buffer,
-	executionId: string,
 	filePath?: string,
 	mimeType?: string,
 ): Promise<IBinaryData> {
@@ -812,7 +722,10 @@ export async function prepareBinaryData(
 
 	const returnData: IBinaryData = {
 		mimeType,
-		data: '',
+		// TODO: Should program it in a way that it does not have to converted to base64
+		//       It should only convert to and from base64 when saved in database because
+		//       of for example an error or when there is a wait node.
+		data: binaryData.toString(BINARY_ENCODING),
 	};
 
 	if (filePath) {
@@ -835,7 +748,7 @@ export async function prepareBinaryData(
 		}
 	}
 
-	return BinaryDataManager.getInstance().storeBinaryData(returnData, binaryData, executionId);
+	return returnData;
 }
 
 /**
@@ -1452,19 +1365,7 @@ export function getExecutePollFunctions(
 			},
 			helpers: {
 				httpRequest,
-				async prepareBinaryData(
-					binaryData: Buffer,
-					filePath?: string,
-					mimeType?: string,
-				): Promise<IBinaryData> {
-					return prepareBinaryData.call(
-						this,
-						binaryData,
-						additionalData.executionId!,
-						filePath,
-						mimeType,
-					);
-				},
+				prepareBinaryData,
 				request: proxyRequestToAxios,
 				async requestOAuth2(
 					this: IAllExecuteFunctions,
@@ -1570,19 +1471,8 @@ export function getExecuteTriggerFunctions(
 			},
 			helpers: {
 				httpRequest,
-				async prepareBinaryData(
-					binaryData: Buffer,
-					filePath?: string,
-					mimeType?: string,
-				): Promise<IBinaryData> {
-					return prepareBinaryData.call(
-						this,
-						binaryData,
-						additionalData.executionId!,
-						filePath,
-						mimeType,
-					);
-				},
+				prepareBinaryData,
+
 				request: proxyRequestToAxios,
 				async requestOAuth2(
 					this: IAllExecuteFunctions,
@@ -1658,14 +1548,7 @@ export function getExecuteFunctions(
 				workflowInfo: IExecuteWorkflowInfo,
 				inputData?: INodeExecutionData[],
 			): Promise<any> {
-				return additionalData
-					.executeWorkflow(workflowInfo, additionalData, inputData)
-					.then(async (result) =>
-						BinaryDataManager.getInstance().duplicateBinaryData(
-							result,
-							additionalData.executionId!,
-						),
-					);
+				return additionalData.executeWorkflow(workflowInfo, additionalData, inputData);
 			},
 			getContext(type: string): IContextObject {
 				return NodeHelpers.getContext(runExecutionData, type, node);
@@ -1784,19 +1667,7 @@ export function getExecuteFunctions(
 			},
 			helpers: {
 				httpRequest,
-				async prepareBinaryData(
-					binaryData: Buffer,
-					filePath?: string,
-					mimeType?: string,
-				): Promise<IBinaryData> {
-					return prepareBinaryData.call(
-						this,
-						binaryData,
-						additionalData.executionId!,
-						filePath,
-						mimeType,
-					);
-				},
+				prepareBinaryData,
 				async getBinaryDataBuffer(
 					itemIndex: number,
 					propertyName: string,
@@ -1977,19 +1848,7 @@ export function getExecuteSingleFunctions(
 			},
 			helpers: {
 				httpRequest,
-				async prepareBinaryData(
-					binaryData: Buffer,
-					filePath?: string,
-					mimeType?: string,
-				): Promise<IBinaryData> {
-					return prepareBinaryData.call(
-						this,
-						binaryData,
-						additionalData.executionId!,
-						filePath,
-						mimeType,
-					);
-				},
+				prepareBinaryData,
 				request: proxyRequestToAxios,
 				async requestOAuth2(
 					this: IAllExecuteFunctions,
@@ -2370,19 +2229,7 @@ export function getExecuteWebhookFunctions(
 			prepareOutputData: NodeHelpers.prepareOutputData,
 			helpers: {
 				httpRequest,
-				async prepareBinaryData(
-					binaryData: Buffer,
-					filePath?: string,
-					mimeType?: string,
-				): Promise<IBinaryData> {
-					return prepareBinaryData.call(
-						this,
-						binaryData,
-						additionalData.executionId!,
-						filePath,
-						mimeType,
-					);
-				},
+				prepareBinaryData,
 				request: proxyRequestToAxios,
 				async requestOAuth2(
 					this: IAllExecuteFunctions,

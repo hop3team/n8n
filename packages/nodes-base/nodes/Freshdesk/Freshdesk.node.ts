@@ -89,6 +89,7 @@ export class Freshdesk implements INodeType {
 		description: 'Consume Freshdesk API',
 		defaults: {
 			name: 'Freshdesk',
+			color: '#25c10b',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

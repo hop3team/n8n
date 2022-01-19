@@ -47,6 +47,7 @@ export class GoogleCalendar implements INodeType {
 		description: 'Consume Google Calendar API',
 		defaults: {
 			name: 'Google Calendar',
+			color: '#3E87E4',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

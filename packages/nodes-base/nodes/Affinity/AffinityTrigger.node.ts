@@ -27,6 +27,7 @@ export class AffinityTrigger implements INodeType {
 		description: 'Handle Affinity events via webhooks',
 		defaults: {
 			name: 'Affinity-Trigger',
+			color: '#3343df',
 		},
 		inputs: [],
 		outputs: ['main'],

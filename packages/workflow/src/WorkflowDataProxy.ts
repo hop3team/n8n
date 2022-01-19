@@ -92,12 +92,6 @@ export class WorkflowDataProxy {
 
 					return Reflect.ownKeys(target);
 				},
-				getOwnPropertyDescriptor(k) {
-					return {
-						enumerable: true,
-						configurable: true,
-					};
-				},
 				get(target, name, receiver) {
 					// eslint-disable-next-line no-param-reassign
 					name = name.toString();
@@ -147,12 +141,6 @@ export class WorkflowDataProxy {
 		return new Proxy(node.parameters, {
 			ownKeys(target) {
 				return Reflect.ownKeys(target);
-			},
-			getOwnPropertyDescriptor(k) {
-				return {
-					enumerable: true,
-					configurable: true,
-				};
 			},
 			get(target, name, receiver) {
 				name = name.toString();
@@ -397,15 +385,6 @@ export class WorkflowDataProxy {
 		return new Proxy(
 			{},
 			{
-				ownKeys(target) {
-					return allowedValues;
-				},
-				getOwnPropertyDescriptor(k) {
-					return {
-						enumerable: true,
-						configurable: true,
-					};
-				},
 				get(target, name, receiver) {
 					if (!allowedValues.includes(name.toString())) {
 						throw new Error(`The key "${name.toString()}" is not supported!`);

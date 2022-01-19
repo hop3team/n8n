@@ -39,6 +39,7 @@ export class ERPNext implements INodeType {
 		description: 'Consume ERPNext API',
 		defaults: {
 			name: 'ERPNext',
+			color: '#7574ff',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

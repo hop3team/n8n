@@ -1,18 +1,18 @@
 <template>
 	<div>
 		<div class="error-header">
-			<div class="error-message">{{ $locale.baseText('nodeErrorView.error') + ': ' + error.message }}</div>
+			<div class="error-message">ERROR: {{error.message}}</div>
 			<div class="error-description" v-if="error.description">{{error.description}}</div>
 		</div>
 		<details>
 			<summary class="error-details__summary">
-				<font-awesome-icon class="error-details__icon" icon="angle-right" /> {{ $locale.baseText('nodeErrorView.details') }}
+				<font-awesome-icon class="error-details__icon" icon="angle-right" /> Details
 			</summary>
 			<div class="error-details__content">
 				<div v-if="error.timestamp">
 					<el-card class="box-card" shadow="never">
 						<div slot="header" class="clearfix box-card__title">
-							<span>{{ $locale.baseText('nodeErrorView.time') }}</span>
+							<span>Time</span>
 						</div>
 						<div>
 							{{new Date(error.timestamp).toLocaleString()}}
@@ -22,7 +22,7 @@
 				<div v-if="error.httpCode">
 					<el-card class="box-card" shadow="never">
 						<div slot="header" class="clearfix box-card__title">
-							<span>{{ $locale.baseText('nodeErrorView.httpCode') }}</span>
+							<span>HTTP-Code</span>
 						</div>
 						<div>
 							{{error.httpCode}}
@@ -32,13 +32,13 @@
 				<div v-if="error.cause">
 					<el-card class="box-card" shadow="never">
 						<div slot="header" class="clearfix box-card__title">
-							<span>{{ $locale.baseText('nodeErrorView.cause') }}</span>
+							<span>Cause</span>
 							<br>
-							<span class="box-card__subtitle">{{ $locale.baseText('nodeErrorView.dataBelowMayContain') }}</span>
+							<span class="box-card__subtitle">Data below may contain sensitive information. Proceed with caution when sharing.</span>
 						</div>
 						<div>
 							<div class="copy-button" v-if="displayCause">
-								<n8n-icon-button @click="copyCause" :title="$locale.baseText('nodeErrorView.copyToClipboard')" icon="copy" />
+								<n8n-icon-button @click="copyCause" title="Copy to Clipboard" icon="copy" />
 							</div>
 							<vue-json-pretty
 								v-if="displayCause"
@@ -50,7 +50,7 @@
 								class="json-data"
 							/>
 							<span v-else>
-								<font-awesome-icon icon="info-circle" />{{ $locale.baseText('nodeErrorView.theErrorCauseIsTooLargeToBeDisplayed') }}
+								<font-awesome-icon icon="info-circle" /> The error cause is too large to be displayed.
 							</span>
 						</div>
 					</el-card>
@@ -58,7 +58,7 @@
 				<div v-if="error.stack">
 					<el-card class="box-card" shadow="never">
 						<div slot="header" class="clearfix box-card__title">
-							<span>{{ $locale.baseText('nodeErrorView.stack') }}</span>
+							<span>Stack</span>
 						</div>
 						<div>
 							<pre><code>{{error.stack}}</code></pre>
@@ -103,8 +103,8 @@ export default mixins(
 		},
 		copySuccess() {
 			this.$showMessage({
-				title: this.$locale.baseText('nodeErrorView.showMessage.title'),
-				message: this.$locale.baseText('nodeErrorView.showMessage.message'),
+				title: 'Copied to clipboard',
+				message: '',
 				type: 'info',
 			});
 		},

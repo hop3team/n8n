@@ -42,6 +42,7 @@ export class MicrosoftSql implements INodeType {
 		description: 'Get, add and update data in Microsoft SQL',
 		defaults: {
 			name: 'Microsoft SQL',
+			color: '#bcbcbd',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

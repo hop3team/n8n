@@ -29,6 +29,7 @@ export class FormstackTrigger implements INodeType {
 		description: 'Starts the workflow on a Formstack form submission.',
 		defaults: {
 			name: 'Formstack Trigger',
+			color: '#21b573',
 		},
 		inputs: [],
 		outputs: ['main'],

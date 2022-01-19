@@ -50,6 +50,7 @@ export class Orbit implements INodeType {
 		description: 'Consume Orbit API',
 		defaults: {
 			name: 'Orbit',
+			color: '#00ade8',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

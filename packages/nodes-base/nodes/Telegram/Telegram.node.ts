@@ -32,6 +32,7 @@ export class Telegram implements INodeType {
 		description: 'Sends data to Telegram',
 		defaults: {
 			name: 'Telegram',
+			color: '#0088cc',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

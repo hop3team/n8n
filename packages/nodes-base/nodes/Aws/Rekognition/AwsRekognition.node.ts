@@ -28,6 +28,7 @@ export class AwsRekognition implements INodeType {
 		description: 'Sends data to AWS Rekognition',
 		defaults: {
 			name: 'AWS Rekognition',
+			color: '#305b94',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

@@ -1,25 +1,13 @@
 <template>
 	<n8n-tooltip class="primary-color" placement="bottom-end" >
 		<div slot="content">
-			<span v-html="$locale.baseText('executionDetails.readOnly.youreViewingTheLogOf')"></span>
+			You're viewing the log of a previous execution. You cannot<br />
+			make changes since this execution already occured. Make changes<br />
+			to this workflow by clicking on its name on the left.
 		</div>
-		<div>
+		<span>
 			<font-awesome-icon icon="exclamation-triangle" />
-			<span v-html="$locale.baseText('executionDetails.readOnly.readOnly')"></span>
-		</div>
+			Read only
+		</span>
 	</n8n-tooltip>
 </template>
-
-<script lang="ts">
-import Vue from 'vue';
-
-export default Vue.extend({
-	name: "ReadOnly",
-});
-</script>
-
-<style scoped>
-svg {
-	margin-right: 6px;
-}
-</style>

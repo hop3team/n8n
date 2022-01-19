@@ -45,7 +45,6 @@ import {
 	WorkflowExecuteAdditionalData,
 	WorkflowHelpers,
 	WorkflowRunner,
-	ExternalHooks,
 } from '.';
 import config = require('../config');
 
@@ -113,8 +112,6 @@ export class ActiveWorkflowRunner {
 			}
 			Logger.verbose('Finished initializing active workflows (startup)');
 		}
-		const externalHooks = ExternalHooks();
-		await externalHooks.run('activeWorkflows.initialized', []);
 	}
 
 	// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types

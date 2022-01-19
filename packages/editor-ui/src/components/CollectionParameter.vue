@@ -2,7 +2,7 @@
 	<div @keydown.stop class="collection-parameter">
 		<div class="collection-parameter-wrapper">
 			<div v-if="getProperties.length === 0" class="no-items-exist">
-				<n8n-text size="small">{{ $locale.baseText('collectionParameter.noProperties') }}</n8n-text>
+				<n8n-text size="small">Currently no properties exist</n8n-text>
 			</div>
 
 			<parameter-input-list :parameters="getProperties" :nodeValues="nodeValues" :path="path" :hideDelete="hideDelete" :indent="true" @valueChanged="valueChanged" />
@@ -19,7 +19,7 @@
 						<n8n-option
 							v-for="item in parameterOptions"
 							:key="item.name"
-							:label="$locale.nodeText().collectionOptionDisplayName(parameter, item, path)"
+							:label="item.displayName"
 							:value="item.name">
 						</n8n-option>
 					</n8n-select>
@@ -67,8 +67,7 @@ export default mixins(
 		},
 		computed: {
 			getPlaceholderText (): string {
-				const placeholder = this.$locale.nodeText().placeholder(this.parameter, this.path);
-				return placeholder ? placeholder : this.$locale.baseText('collectionParameter.choose');
+				return this.parameter.placeholder ? this.parameter.placeholder : 'Choose Option To Add';
 			},
 			getProperties (): INodeProperties[] {
 				const returnProperties = [];

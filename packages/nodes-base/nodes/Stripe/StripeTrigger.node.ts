@@ -26,6 +26,7 @@ export class StripeTrigger implements INodeType {
 		description: 'Handle Stripe events via webhooks',
 		defaults: {
 			name: 'Stripe Trigger',
+			color: '#32325d',
 		},
 		inputs: [],
 		outputs: ['main'],

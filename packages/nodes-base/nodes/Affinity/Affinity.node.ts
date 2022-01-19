@@ -55,6 +55,7 @@ export class Affinity implements INodeType {
 		description: 'Consume Affinity API',
 		defaults: {
 			name: 'Affinity',
+			color: '#3343df',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

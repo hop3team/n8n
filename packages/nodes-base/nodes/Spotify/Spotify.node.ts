@@ -29,6 +29,7 @@ export class Spotify implements INodeType {
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
 		defaults: {
 			name: 'Spotify',
+			color: '#1DB954',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

@@ -7,15 +7,15 @@
 		maxWidth="460px"
 	>
 		<template slot="header">
-			<h2 :class="$style.title">{{ $locale.baseText('credentialSelectModal.addNewCredential') }}</h2>
+			<h2 :class="$style.title">Add new credential</h2>
 		</template>
 		<template slot="content">
 			<div>
-				<div :class="$style.subtitle">{{ $locale.baseText('credentialSelectModal.selectAnAppOrServiceToConnectTo') }}</div>
+				<div :class="$style.subtitle">Select an app or service to connect to</div>
 				<n8n-select
 					filterable
 					defaultFirstOption
-					:placeholder="$locale.baseText('credentialSelectModal.searchForApp')"
+					placeholder="Search for app..."
 					size="xlarge"
 					ref="select"
 					:value="selected"
@@ -35,7 +35,7 @@
 		<template slot="footer">
 			<div :class="$style.footer">
 				<n8n-button
-					:label="$locale.baseText('credentialSelectModal.continue')"
+					label="Continue"
 					float="right"
 					size="large"
 					:disabled="!selected"

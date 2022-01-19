@@ -24,6 +24,7 @@ export class PushcutTrigger implements INodeType {
 		description: 'Starts the workflow when Pushcut events occur',
 		defaults: {
 			name: 'Pushcut Trigger',
+			color: '#1f2957',
 		},
 		inputs: [],
 		outputs: ['main'],

@@ -63,6 +63,7 @@ export class Mailchimp implements INodeType {
 		description: 'Consume Mailchimp API',
 		defaults: {
 			name: 'Mailchimp',
+			color: '#000000',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

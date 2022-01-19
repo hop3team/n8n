@@ -175,6 +175,7 @@ export const leadFields: INodeProperties[] = [
 				type: 'number',
 				typeOptions: {
 					numberPrecision: 2,
+					numberStepSize: 1,
 				},
 				default: '',
 				description: 'Annual revenue for the company of the lead.',
@@ -289,6 +290,9 @@ export const leadFields: INodeProperties[] = [
 				displayName: 'Number Of Employees',
 				name: 'numberOfEmployees',
 				type: 'number',
+				typeOptions: {
+					numberStepSize: 1,
+				},
 				default: '',
 				description: 'Number of employees at the lead’s company. Label is Employees.',
 			},
@@ -424,6 +428,7 @@ export const leadFields: INodeProperties[] = [
 				type: 'number',
 				typeOptions: {
 					numberPrecision: 2,
+					numberStepSize: 1,
 				},
 				default: '',
 				description: 'Annual revenue for the company of the lead.',
@@ -552,6 +557,9 @@ export const leadFields: INodeProperties[] = [
 				displayName: 'Number Of Employees',
 				name: 'numberOfEmployees',
 				type: 'number',
+				typeOptions: {
+					numberStepSize: 1,
+				},
 				default: '',
 				description: 'Number of employees at the lead’s company. Label is Employees.',
 			},

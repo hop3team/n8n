@@ -29,6 +29,7 @@ export class RealtimeDatabase implements INodeType {
 		description: 'Interact with Google Firebase - Realtime Database API',
 		defaults: {
 			name: 'Google Cloud Realtime Database',
+			color: '#ffcb2d',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

@@ -33,6 +33,7 @@ export class Vero implements INodeType {
 		description: 'Consume Vero API',
 		defaults: {
 			name: 'Vero',
+			color: '#c02428',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

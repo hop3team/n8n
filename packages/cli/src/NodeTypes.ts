@@ -5,7 +5,6 @@
 import {
 	INodeType,
 	INodeTypeData,
-	INodeTypeDescription,
 	INodeTypes,
 	INodeVersionedType,
 	NodeHelpers,
@@ -19,7 +18,7 @@ class NodeTypesClass implements INodeTypes {
 		// polling nodes the polling times
 		// eslint-disable-next-line no-restricted-syntax
 		for (const nodeTypeData of Object.values(nodeTypes)) {
-			const nodeType = NodeHelpers.getVersionedNodeType(nodeTypeData.type);
+			const nodeType = NodeHelpers.getVersionedTypeNode(nodeTypeData.type);
 			const applyParameters = NodeHelpers.getSpecialNodeParameters(nodeType);
 
 			if (applyParameters.length) {
@@ -40,29 +39,11 @@ class NodeTypesClass implements INodeTypes {
 		return this.nodeTypes[nodeType].type;
 	}
 
-	/**
-	 * Variant of `getByNameAndVersion` that includes the node's source path, used to locate a node's translations.
-	 */
-	getWithSourcePath(
-		nodeTypeName: string,
-		version: number,
-	): { description: INodeTypeDescription } & { sourcePath: string } {
-		const nodeType = this.nodeTypes[nodeTypeName];
-
-		if (!nodeType) {
-			throw new Error(`Unknown node type: ${nodeTypeName}`);
-		}
-
-		const { description } = NodeHelpers.getVersionedNodeType(nodeType.type, version);
-
-		return { description: { ...description }, sourcePath: nodeType.sourcePath };
-	}
-
 	getByNameAndVersion(nodeType: string, version?: number): INodeType {
 		if (this.nodeTypes[nodeType] === undefined) {
 			throw new Error(`The node-type "${nodeType}" is not known!`);
 		}
-		return NodeHelpers.getVersionedNodeType(this.nodeTypes[nodeType].type, version);
+		return NodeHelpers.getVersionedTypeNode(this.nodeTypes[nodeType].type, version);
 	}
 }
 

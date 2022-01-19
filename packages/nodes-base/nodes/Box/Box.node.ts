@@ -43,6 +43,7 @@ export class Box implements INodeType {
 		description: 'Consume Box API',
 		defaults: {
 			name: 'Box',
+			color: '#00aeef',
 		},
 		inputs: ['main'],
 		outputs: ['main'],
@@ -130,7 +131,7 @@ export class Box implements INodeType {
 
 						let mimeType: string | undefined;
 
-						responseData = await boxApiRequest.call(this, 'GET', `/files/${fileId}/content`, {}, {}, undefined, { encoding: null, resolveWithFullResponse: true });
+						responseData = await boxApiRequest.call(this, 'GET', `/files/${fileId}/content`, {}, {}, undefined, { resolveWithFullResponse: true });
 
 						const newItem: INodeExecutionData = {
 							json: items[i].json,

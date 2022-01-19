@@ -59,6 +59,7 @@ export class Wekan implements INodeType {
 		description: 'Consume Wekan API',
 		defaults: {
 			name: 'Wekan',
+			color: '#006581',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

@@ -32,6 +32,7 @@ export class Bubble implements INodeType {
 		description: 'Consume the Bubble Data API',
 		defaults: {
 			name: 'Bubble',
+			color: '#0205d3',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

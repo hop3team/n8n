@@ -20,6 +20,7 @@ export class TheHiveTrigger implements INodeType {
 		description: 'Starts the workflow when TheHive events occur',
 		defaults: {
 			name: 'TheHive Trigger',
+			color: '#f3d02f',
 		},
 		inputs: [],
 		outputs: ['main'],

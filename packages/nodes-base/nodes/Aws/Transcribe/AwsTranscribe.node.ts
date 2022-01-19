@@ -25,6 +25,7 @@ export class AwsTranscribe implements INodeType {
 		description: 'Sends data to AWS Transcribe',
 		defaults: {
 			name: 'AWS Transcribe',
+			color: '#5aa08d',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

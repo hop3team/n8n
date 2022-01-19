@@ -23,6 +23,7 @@ export class Redis implements INodeType {
 		description: 'Get, send and update data in Redis',
 		defaults: {
 			name: 'Redis',
+			color: '#0033AA',
 		},
 		inputs: ['main'],
 		outputs: ['main'],
@@ -507,7 +508,6 @@ export class Redis implements INodeType {
 			});
 
 			client.on('ready', async (err: Error | null) => {
-				client.select(credentials.database as number);
 				try {
 					if (operation === 'info') {
 						const clientInfo = util.promisify(client.info).bind(client);

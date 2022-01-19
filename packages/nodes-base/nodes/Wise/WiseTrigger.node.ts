@@ -34,6 +34,7 @@ export class WiseTrigger implements INodeType {
 		description: 'Handle Wise events via webhooks',
 		defaults: {
 			name: 'Wise Trigger',
+			color: '#37517e',
 		},
 		inputs: [],
 		outputs: ['main'],

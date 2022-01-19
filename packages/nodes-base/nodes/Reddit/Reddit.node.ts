@@ -51,6 +51,7 @@ export class Reddit implements INodeType {
 		description: 'Consume the Reddit API',
 		defaults: {
 			name: 'Reddit',
+			color: '#ff5700',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

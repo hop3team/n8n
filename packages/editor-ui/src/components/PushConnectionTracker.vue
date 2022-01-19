@@ -3,10 +3,12 @@
 		<div class="push-connection-lost primary-color" v-if="!pushConnectionActive">
 			<n8n-tooltip placement="bottom-end" >
 				<div slot="content">
-					{{ $locale.baseText('pushConnectionTracker.cannotConnectToServer') }}
+					Cannot connect to server.<br />
+					It is either down or you have a connection issue. <br />
+					It should reconnect automatically once the issue is resolved.
 				</div>
 				<span>
-					<font-awesome-icon icon="exclamation-triangle" />&nbsp; {{ $locale.baseText('pushConnectionTracker.connectionLost') }}
+					<font-awesome-icon icon="exclamation-triangle" />&nbsp; Connection lost
 				</span>
 			</n8n-tooltip>
 		</div>

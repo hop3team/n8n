@@ -5,26 +5,16 @@
 		width="520px"
 	>
 		<template slot="header">
-			<span :class="$style.title">
-				{{ $locale.baseText('updatesPanel.weVeBeenBusy') }}
-			</span>
+			<span :class="$style.title">We’ve been busy ✨</span>
 		</template>
 		<template slot="content">
 			<section :class="$style['description']">
+
 				<p v-if="currentVersion">
-					{{ $locale.baseText(
-						'updatesPanel.youReOnVersion',
-						{ interpolate: { currentVersionName: currentVersion.name } }
-					) }}
-					<strong><TimeAgo :date="currentVersion.createdAt" /></strong>{{ $locale.baseText('updatesPanel.andIs') }} <strong>{{ $locale.baseText(
-							'updatesPanel.version',
-							{
-								interpolate: {
-									numberOfVersions: nextVersions.length,
-									howManySuffix: nextVersions.length > 1 ? "s" : "",
-								}
-							}
-					)}}</strong> {{ $locale.baseText('updatesPanel.behindTheLatest') }}
+					You’re on {{ currentVersion.name }}, which was released
+					<strong><TimeAgo :date="currentVersion.createdAt" /></strong> and is
+					<strong>{{ nextVersions.length }} version{{nextVersions.length > 1 ? "s" : ""}}</strong>
+					behind the latest and greatest n8n
 				</p>
 
 				<a
@@ -34,9 +24,7 @@
 					target="_blank"
 				>
 					<font-awesome-icon icon="info-circle"></font-awesome-icon>
-					<span>
-						{{ $locale.baseText('updatesPanel.howToUpdateYourN8nVersion') }}
-					</span>
+					<span>How to update your n8n version</span>
 				</a>
 
 			</section>

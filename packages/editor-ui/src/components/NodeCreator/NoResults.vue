@@ -4,31 +4,27 @@
 			<NoResultsIcon />
 		</div>
 		<div class="title">
-			<div>
-				{{ $locale.baseText('nodeCreator.noResults.weDidntMakeThatYet') }}
-			</div>
+			<div>We didn't make that... yet</div>
 			<div class="action">
-				{{ $locale.baseText('nodeCreator.noResults.dontWorryYouCanProbablyDoItWithThe') }}
-				<a @click="selectHttpRequest">{{ $locale.baseText('nodeCreator.noResults.httpRequest') }}</a> {{ $locale.baseText('nodeCreator.noResults.or') }}
-				<a @click="selectWebhook">{{ $locale.baseText('nodeCreator.noResults.webhook') }}</a> {{ $locale.baseText('nodeCreator.noResults.node') }}
+				Don’t worry, you can probably do it with the
+				<a @click="selectHttpRequest">HTTP Request</a> or
+				<a @click="selectWebhook">Webhook</a> node
 			</div>
 		</div>
 
 		<div class="request">
-			<div>
-				{{ $locale.baseText('nodeCreator.noResults.wantUsToMakeItFaster') }}
-			</div>
+			<div>Want us to make it faster?</div>
 			<div>
 				<a
 					:href="REQUEST_NODE_FORM_URL"
 					target="_blank"
 				>
-					<span>{{ $locale.baseText('nodeCreator.noResults.requestTheNode') }}</span>&nbsp;
+					<span>Request the node</span>&nbsp;
 					<span>
 						<font-awesome-icon
 							class="external"
 							icon="external-link-alt"
-							:title="$locale.baseText('nodeCreator.noResults.requestTheNode')"
+							title="Request the node"
 						/>
 					</span>
 				</a>
@@ -41,6 +37,7 @@
 <script lang="ts">
 import { HTTP_REQUEST_NODE_TYPE, REQUEST_NODE_FORM_URL, WEBHOOK_NODE_TYPE } from '@/constants';
 import Vue from 'vue';
+
 import NoResultsIcon from './NoResultsIcon.vue';
 
 export default Vue.extend({

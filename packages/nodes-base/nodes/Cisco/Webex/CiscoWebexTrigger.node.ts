@@ -34,6 +34,7 @@ export class CiscoWebexTrigger implements INodeType {
 		description: 'Starts the workflow when Cisco Webex events occur.',
 		defaults: {
 			name: 'Webex Trigger',
+			color: '#29b6f6',
 		},
 		inputs: [],
 		outputs: ['main'],

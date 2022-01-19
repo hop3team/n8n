@@ -28,6 +28,7 @@ export class Mindee implements INodeType {
 		description: 'Consume Mindee API',
 		defaults: {
 			name: 'Mindee',
+			color: '#e94950',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

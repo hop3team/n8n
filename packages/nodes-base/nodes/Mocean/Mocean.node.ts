@@ -20,6 +20,7 @@ export class Mocean implements INodeType {
 		description: 'Send SMS and voice messages via Mocean',
 		defaults: {
 			name: 'Mocean',
+			color: '#772244',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

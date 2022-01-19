@@ -40,6 +40,7 @@ export class Storyblok implements INodeType {
 		description: 'Consume Storyblok API',
 		defaults: {
 			name: 'Storyblok',
+			color: '#09b3af',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

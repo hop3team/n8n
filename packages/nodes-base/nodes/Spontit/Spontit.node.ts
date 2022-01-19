@@ -30,6 +30,7 @@ export class Spontit implements INodeType {
 		description: 'Consume Spontit API',
 		defaults: {
 			name: 'Spontit',
+			color: '#00deff',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

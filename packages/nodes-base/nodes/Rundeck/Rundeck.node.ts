@@ -19,6 +19,7 @@ export class Rundeck implements INodeType {
 		description: 'Manage Rundeck API',
 		defaults: {
 			name: 'Rundeck',
+			color: '#F73F39',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

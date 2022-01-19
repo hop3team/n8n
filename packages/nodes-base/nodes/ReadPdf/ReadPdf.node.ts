@@ -1,4 +1,7 @@
-import { IExecuteFunctions } from 'n8n-core';
+import {
+	BINARY_ENCODING,
+	IExecuteFunctions,
+} from 'n8n-core';
 
 import {
 	INodeExecutionData,
@@ -52,7 +55,7 @@ export class ReadPdf implements INodeType {
 					item.binary = {};
 				}
 
-				const binaryData = await this.helpers.getBinaryDataBuffer(itemIndex, binaryPropertyName);
+				const binaryData = Buffer.from(item.binary[binaryPropertyName].data, BINARY_ENCODING);
 				returnData.push({
 					binary: item.binary,
 					json: await pdf(binaryData),

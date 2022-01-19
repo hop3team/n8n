@@ -43,6 +43,7 @@ export class SurveyMonkeyTrigger implements INodeType {
 		description: 'Starts the workflow when Survey Monkey events occur',
 		defaults: {
 			name: 'SurveyMonkey Trigger',
+			color: '#53b675',
 		},
 		inputs: [],
 		outputs: ['main'],

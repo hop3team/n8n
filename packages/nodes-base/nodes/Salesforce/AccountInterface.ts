@@ -16,7 +16,6 @@ export interface IAccount {
 	BillingState?: string;
 	ShippingStreet?: string;
 	ShippingCity?: string;
-	AccountNumber?: string;
 	AccountSource?: string;
 	AnnualRevenue?: number;
 	BillingStreet?: string;

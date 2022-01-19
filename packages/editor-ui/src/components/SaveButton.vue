@@ -1,9 +1,9 @@
 <template>
 	<span :class="$style.container">
-		<span :class="$style.saved" v-if="saved">{{ $locale.baseText('saveButton.saved') }}</span>
+		<span :class="$style.saved" v-if="saved">{{ savedLabel }}</span>
 		<n8n-button
 			v-else
-			:label="saveButtonLabel"
+			:label="isSaving ? savingLabel : saveLabel"
 			:loading="isSaving"
 			:disabled="disabled"
 			@click="$emit('click')"
@@ -28,19 +28,15 @@ export default Vue.extend({
 		},
 		saveLabel: {
 			type: String,
+			default: 'Save',
 		},
 		savingLabel: {
 			type: String,
+			default: 'Saving',
 		},
 		savedLabel: {
 			type: String,
-		},
-	},
-	computed: {
-		saveButtonLabel() {
-			return this.isSaving
-				? this.$locale.baseText('saveButton.saving')
-				: this.$locale.baseText('saveButton.save');
+			default: 'Saved',
 		},
 	},
 });

@@ -20,6 +20,7 @@ export class Discord implements INodeType {
 		description: 'Sends data to Discord',
 		defaults: {
 			name: 'Discord',
+			color: '#7289da',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

@@ -24,6 +24,7 @@ export class GumroadTrigger implements INodeType {
 		description: 'Handle Gumroad events via webhooks',
 		defaults: {
 			name: 'Gumroad Trigger',
+			color: '#60c2cd',
 		},
 		inputs: [],
 		outputs: ['main'],

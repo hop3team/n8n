@@ -39,6 +39,7 @@ export class CoinGecko implements INodeType {
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
 		defaults: {
 			name: 'CoinGecko',
+			color: '#8bc53f',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

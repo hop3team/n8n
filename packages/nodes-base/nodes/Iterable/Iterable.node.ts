@@ -45,6 +45,7 @@ export class Iterable implements INodeType {
 		description: 'Consume Iterable API',
 		defaults: {
 			name: 'Iterable',
+			color: '#725ed8',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

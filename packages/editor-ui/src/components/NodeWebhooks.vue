@@ -1,8 +1,8 @@
 <template>
 	<div v-if="webhooksNode.length" class="webhoooks">
-		<div class="clickable headline" :class="{expanded: !isMinimized}" @click="isMinimized=!isMinimized" :title="isMinimized ? $locale.baseText('nodeWebhooks.clickToDisplayWebhookUrls') : $locale.baseText('nodeWebhooks.clickToHideWebhookUrls')">
+		<div class="clickable headline" :class="{expanded: !isMinimized}" @click="isMinimized=!isMinimized" :title="isMinimized ? 'Click to display Webhook URLs' : 'Click to hide Webhook URLs'">
 			<font-awesome-icon icon="angle-down" class="minimize-button minimize-icon" />
-			{{ $locale.baseText('nodeWebhooks.webhookUrls') }}
+			Webhook URLs
 		</div>
 		<el-collapse-transition>
 			<div class="node-webhooks" v-if="!isMinimized">
@@ -10,14 +10,14 @@
 					<el-row>
 						<el-col :span="24">
 							<el-radio-group v-model="showUrlFor" size="mini">
-								<el-radio-button label="test">{{ $locale.baseText('nodeWebhooks.testUrl') }}</el-radio-button>
-								<el-radio-button label="production">{{ $locale.baseText('nodeWebhooks.productionUrl') }}</el-radio-button>
+								<el-radio-button label="test">Test URL</el-radio-button>
+								<el-radio-button label="production">Production URL</el-radio-button>
 							</el-radio-group>
 						</el-col>
 					</el-row>
 				</div>
 
-				<n8n-tooltip v-for="(webhook, index) in webhooksNode" :key="index" class="item"  :content="$locale.baseText('nodeWebhooks.clickToCopyWebhookUrls')" placement="left">
+				<n8n-tooltip v-for="(webhook, index) in webhooksNode" :key="index" class="item"  content="Click to copy Webhook URL" placement="left">
 					<div class="webhook-wrapper">
 							<div class="http-field">
 								<div class="http-method">
@@ -83,8 +83,8 @@ export default mixins(
 				this.copyToClipboard(webhookUrl);
 
 				this.$showMessage({
-					title: this.$locale.baseText('nodeWebhooks.showMessage.title'),
-					message: this.$locale.baseText('nodeWebhooks.showMessage.message'),
+					title: 'Copied',
+					message: `The webhook URL was successfully copied!`,
 					type: 'success',
 				});
 			},
@@ -95,7 +95,7 @@ export default mixins(
 				try {
 					return this.resolveExpression(webhookData[key] as string) as string;
 				} catch (e) {
-					return this.$locale.baseText('nodeWebhooks.invalidExpression');
+					return '[INVALID EXPRESSION]';
 				}
 			},
 			getWebhookUrl (webhookData: IWebhookDescription): string {

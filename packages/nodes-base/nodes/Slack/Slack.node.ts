@@ -1,4 +1,7 @@
-import { IExecuteFunctions } from 'n8n-core';
+import {
+	BINARY_ENCODING,
+	IExecuteFunctions,
+} from 'n8n-core';
 
 import {
 	ICredentialsDecrypted,
@@ -116,6 +119,7 @@ export class Slack implements INodeType {
 		description: 'Consume Slack API',
 		defaults: {
 			name: 'Slack',
+			color: '#E01E5A',
 		},
 		inputs: ['main'],
 		outputs: ['main'],
@@ -974,10 +978,9 @@ export class Slack implements INodeType {
 								|| items[i].binary[binaryPropertyName] === undefined) {
 								throw new NodeOperationError(this.getNode(), `No binary data property "${binaryPropertyName}" does not exists on item!`);
 							}
-							const binaryDataBuffer = await this.helpers.getBinaryDataBuffer(i, binaryPropertyName);
 							body.file = {
 								//@ts-ignore
-								value: binaryDataBuffer,
+								value: Buffer.from(items[i].binary[binaryPropertyName].data, BINARY_ENCODING),
 								options: {
 									//@ts-ignore
 									filename: items[i].binary[binaryPropertyName].fileName,

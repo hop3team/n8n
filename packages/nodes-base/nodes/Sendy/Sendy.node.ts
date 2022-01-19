@@ -36,6 +36,7 @@ export class Sendy implements INodeType {
 		description: 'Consume Sendy API',
 		defaults: {
 			name: 'Sendy',
+			color: '#000000',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

@@ -1,4 +1,7 @@
-import { IExecuteFunctions } from 'n8n-core';
+import {
+	BINARY_ENCODING,
+	IExecuteFunctions,
+} from 'n8n-core';
 
 import {
 	IDataObject,
@@ -29,6 +32,7 @@ export class NextCloud implements INodeType {
 		description: 'Access data on Nextcloud',
 		defaults: {
 			name: 'Nextcloud',
+			color: '#1cafff',
 		},
 		inputs: ['main'],
 		outputs: ['main'],
@@ -1063,7 +1067,7 @@ export class NextCloud implements INodeType {
 								throw new NodeOperationError(this.getNode(), `No binary data property "${propertyNameUpload}" does not exists on item!`);
 							}
 
-							body = await this.helpers.getBinaryDataBuffer(i, propertyNameUpload);
+							body = Buffer.from(item.binary[propertyNameUpload].data, BINARY_ENCODING);
 						} else {
 							// Is text file
 							body = this.getNodeParameter('fileContent', i) as string;

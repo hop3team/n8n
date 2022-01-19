@@ -28,6 +28,7 @@ export class PayPalTrigger implements INodeType {
 		description: 'Handle PayPal events via webhooks',
 		defaults: {
 			name: 'PayPal Trigger',
+			color: '#32325d',
 		},
 		inputs: [],
 		outputs: ['main'],

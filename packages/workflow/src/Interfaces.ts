@@ -28,7 +28,6 @@ export interface IBinaryData {
 	fileName?: string;
 	directory?: string;
 	fileExtension?: string;
-	id?: string;
 }
 
 export interface IOAuth2Options {
@@ -632,13 +631,10 @@ export type NodePropertyTypes =
 	| 'options'
 	| 'string';
 
-export type CodeAutocompleteTypes = 'function' | 'functionItem';
-
-export type EditorTypes = 'code' | 'json';
+export type EditorTypes = 'code';
 
 export interface INodePropertyTypeOptions {
 	alwaysOpenEditWindow?: boolean; // Supported by: string
-	codeAutocomplete?: CodeAutocompleteTypes; // Supported by: string
 	editor?: EditorTypes; // Supported by: string
 	loadOptionsDependsOn?: string[]; // Supported by: options
 	loadOptionsMethod?: string; // Supported by: options
@@ -647,6 +643,7 @@ export interface INodePropertyTypeOptions {
 	multipleValues?: boolean; // Supported by: <All>
 	multipleValueButtonText?: string; // Supported when "multipleValues" set to true
 	numberPrecision?: number; // Supported by: number
+	numberStepSize?: number; // Supported by: number
 	password?: boolean; // Supported by: string
 	rows?: number; // Supported by: string
 	showAlpha?: boolean; // Supported by: color
@@ -821,7 +818,6 @@ export interface INodeTypeDescription extends INodeTypeBaseDescription {
 		deactivate?: INodeHookDescription[];
 	};
 	webhooks?: IWebhookDescription[];
-	translation?: { [key: string]: object };
 }
 
 export interface INodeHookDescription {
@@ -853,7 +849,6 @@ export interface IWebhookDescription {
 }
 
 export interface IWorkflowDataProxyData {
-	[key: string]: any;
 	$binary: any;
 	$data: any;
 	$env: any;
@@ -1097,8 +1092,6 @@ export interface INodeGraphItem {
 	resource?: string;
 	operation?: string;
 	domain?: string;
-	position: [number, number];
-	mode?: string;
 }
 
 export interface INodeNameIndex {

@@ -41,6 +41,7 @@ export class GoogleDocs implements INodeType {
 		description: 'Consume Google Docs API.',
 		defaults: {
 			name: 'Google Docs',
+			color: '#1a73e8',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

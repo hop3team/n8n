@@ -56,6 +56,7 @@ export class Matrix implements INodeType {
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
 		defaults: {
 			name: 'Matrix',
+			color: '#772244',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

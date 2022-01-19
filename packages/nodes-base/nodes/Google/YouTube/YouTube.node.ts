@@ -1,4 +1,7 @@
-import { IExecuteFunctions } from 'n8n-core';
+import {
+	BINARY_ENCODING,
+	IExecuteFunctions,
+} from 'n8n-core';
 
 import {
 	IDataObject,
@@ -55,6 +58,7 @@ export class YouTube implements INodeType {
 		description: 'Consume YouTube API',
 		defaults: {
 			name: 'YouTube',
+			color: '#FF0000',
 		},
 		inputs: ['main'],
 		outputs: ['main'],
@@ -423,7 +427,7 @@ export class YouTube implements INodeType {
 							mimeType = item.binary[binaryProperty].mimeType;
 						}
 
-						const body = await this.helpers.getBinaryDataBuffer(i, binaryProperty);
+						const body = Buffer.from(item.binary[binaryProperty].data, BINARY_ENCODING);
 
 						const requestOptions = {
 							headers: {
@@ -910,7 +914,7 @@ export class YouTube implements INodeType {
 							mimeType = item.binary[binaryProperty].mimeType;
 						}
 
-						const body = await this.helpers.getBinaryDataBuffer(i, binaryProperty);
+						const body = Buffer.from(item.binary[binaryProperty].data, BINARY_ENCODING);
 
 						const requestOptions = {
 							headers: {

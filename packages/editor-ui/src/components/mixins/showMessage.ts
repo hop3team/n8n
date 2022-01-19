@@ -131,11 +131,11 @@ export const showMessage = mixins(externalHooks).extend({
 			this.$telemetry.track('Instance FE emitted error', { error_title: title, error_description: message, error_message: error.message, workflow_id: this.$store.getters.workflowId });
 		},
 
-		async confirmMessage (message: string, headline: string, type: MessageType | null = 'warning', confirmButtonText?: string, cancelButtonText?: string): Promise<boolean> {
+		async confirmMessage (message: string, headline: string, type: MessageType | null = 'warning', confirmButtonText = 'OK', cancelButtonText = 'Cancel'): Promise<boolean> {
 			try {
 				const options: ElMessageBoxOptions  = {
-					confirmButtonText: confirmButtonText || this.$locale.baseText('showMessage.ok'),
-					cancelButtonText: cancelButtonText || this.$locale.baseText('showMessage.cancel'),
+					confirmButtonText,
+					cancelButtonText,
 					dangerouslyUseHTMLString: true,
 					...(type && { type }),
 				};
@@ -173,7 +173,7 @@ export const showMessage = mixins(externalHooks).extend({
 					<summary
 						style="color: #ff6d5a; font-weight: bold; cursor: pointer;"
 					>
-						${this.$locale.baseText('showMessage.showDetails')}
+						Show Details
 					</summary>
 					<p>${node.name}: ${errorDescription}</p>
 				</details>

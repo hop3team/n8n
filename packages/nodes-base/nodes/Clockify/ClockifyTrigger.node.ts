@@ -29,6 +29,7 @@ export class ClockifyTrigger implements INodeType {
 		description: 'Listens to Clockify events',
 		defaults: {
 			name: 'Clockify Trigger',
+			color: '#000000',
 		},
 		inputs: [],
 		outputs: ['main'],

@@ -76,11 +76,6 @@ const nodeOperations: INodePropertyOptions[] = [
 		value: 'text',
 		description: 'Adds text to image',
 	},
-	{
-		name: 'Transparent',
-		value: 'transparent',
-		description: 'Make a color in image transparent',
-	},
 ];
 
 
@@ -827,25 +822,6 @@ const nodeOperationOptions: INodeProperties[] = [
 		},
 		description: 'Y (vertical) shear degrees.',
 	},
-
-
-	// ----------------------------------
-	//         transparent
-	// ----------------------------------
-	{
-		displayName: 'Color',
-		name: 'color',
-		type: 'color',
-		default: '#ff0000',
-		displayOptions: {
-			show: {
-				operation: [
-					'transparent',
-				],
-			},
-		},
-		description: 'The color to make transparent',
-	},
 ];
 
 
@@ -1203,15 +1179,9 @@ export class EditImage implements INodeType {
 						throw new NodeOperationError(this.getNode(), `Item does not contain any binary data with the name "${dataPropertyName}".`);
 					}
 
-					const binaryDataBuffer = await this.helpers.getBinaryDataBuffer(itemIndex, dataPropertyName);
-					gmInstance = gm(binaryDataBuffer);
+					gmInstance = gm(Buffer.from(item.binary![dataPropertyName as string].data, BINARY_ENCODING));
 					gmInstance = gmInstance.background('transparent');
 				}
-
-				const newItem: INodeExecutionData = {
-					json: item.json,
-					binary: {},
-				};
 
 				if (operation === 'information') {
 					// Just return the information
@@ -1225,7 +1195,8 @@ export class EditImage implements INodeType {
 						});
 					});
 
-					newItem.json = imageData;
+					item.json = imageData;
+					returnData.push(item);
 				}
 
 				for (let i = 0; i < operations.length; i++) {
@@ -1247,8 +1218,7 @@ export class EditImage implements INodeType {
 
 						const { fd, path, cleanup } = await file();
 						cleanupFunctions.push(cleanup);
-						const binaryDataBuffer = await this.helpers.getBinaryDataBuffer(itemIndex, operationData.dataPropertyNameComposite as string);
-						await fsWriteFileAsync(fd, binaryDataBuffer);
+						await fsWriteFileAsync(fd, Buffer.from(item.binary![operationData.dataPropertyNameComposite as string].data, BINARY_ENCODING));
 
 						if (operations[0].operation === 'create') {
 							// It seems like if the image gets created newly we have to create a new gm instance
@@ -1333,10 +1303,13 @@ export class EditImage implements INodeType {
 							.fill(operationData.fontColor as string)
 							.fontSize(operationData.fontSize as number)
 							.drawText(operationData.positionX as number, operationData.positionY as number, renderText);
-						} else if (operationData.operation === 'transparent') {
-							gmInstance = gmInstance!.transparent(operationData.color as string);
-						}
+					}
 				}
+
+				const newItem: INodeExecutionData = {
+					json: item.json,
+					binary: {},
+				};
 
 				if (item.binary !== undefined) {
 					// Create a shallow copy of the binary data so that the old
@@ -1376,14 +1349,14 @@ export class EditImage implements INodeType {
 
 				returnData.push(await (new Promise<INodeExecutionData>((resolve, reject) => {
 					gmInstance
-						.toBuffer(async (error: Error | null, buffer: Buffer) => {
+						.toBuffer((error: Error | null, buffer: Buffer) => {
 							cleanupFunctions.forEach(async cleanup => await cleanup());
 
 							if (error) {
 								return reject(error);
 							}
 
-							newItem.binary![dataPropertyName as string].data = (await this.helpers.prepareBinaryData(Buffer.from(buffer))).data;
+							newItem.binary![dataPropertyName as string].data = buffer.toString(BINARY_ENCODING);
 
 							return resolve(newItem);
 						});

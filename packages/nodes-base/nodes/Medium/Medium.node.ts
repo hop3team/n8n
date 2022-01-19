@@ -27,6 +27,7 @@ export class Medium implements INodeType {
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
 		defaults: {
 			name: 'Medium',
+			color: '#000000',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

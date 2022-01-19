@@ -3,9 +3,10 @@
 		<el-col class="notags" :span="16">
 			<div class="icon">🗄️</div>
 			<div>
-				<div class="headline">{{ $locale.baseText('noTagsView.readyToOrganizeYourWorkflows') }}</div>
+				<div class="headline">Ready to organize your workflows?</div>
 				<div class="description">
-					{{ $locale.baseText('noTagsView.withWorkflowTagsYouReFree') }}
+					With workflow tags, you're free to create the perfect tagging system for
+					your flows
 				</div>
 			</div>
 			<n8n-button label="Create a tag" size="large" @click="$emit('enableCreate')" />

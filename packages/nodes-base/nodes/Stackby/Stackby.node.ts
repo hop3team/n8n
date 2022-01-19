@@ -26,6 +26,7 @@ export class Stackby implements INodeType {
 		description: 'Read, write, and delete data in Stackby',
 		defaults: {
 			name: 'Stackby',
+			color: '#772244',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

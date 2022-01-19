@@ -29,6 +29,7 @@ export class Yourls implements INodeType {
 		description: 'Consume Yourls API',
 		defaults: {
 			name: 'Yourls',
+			color: '#336498',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

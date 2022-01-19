@@ -48,6 +48,7 @@ export class AwsDynamoDB implements INodeType {
 		description: 'Consume the AWS DynamoDB API',
 		defaults: {
 			name: 'AWS DynamoDB',
+			color: '#2273b9',
 		},
 		inputs: ['main'],
 		outputs: ['main'],

@@ -26,6 +26,7 @@ export class AmqpTrigger implements INodeType {
 		description: 'Listens to AMQP 1.0 Messages',
 		defaults: {
 			name: 'AMQP Trigger',
+			color: '#00FF00',
 		},
 		inputs: [],
 		outputs: ['main'],

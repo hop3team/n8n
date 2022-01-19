@@ -1,4 +1,7 @@
-import { IExecuteFunctions } from 'n8n-core';
+import {
+	BINARY_ENCODING,
+	IExecuteFunctions,
+} from 'n8n-core';
 import {
 	IBinaryData,
 	IDataObject,
@@ -23,6 +26,7 @@ export class FacebookGraphApi implements INodeType {
 		description: 'Interacts with Facebook using the Graph API',
 		defaults: {
 			name: 'Facebook Graph API',
+			color: '#3B5998',
 		},
 		inputs: ['main'],
 		outputs: ['main'],
@@ -388,10 +392,9 @@ export class FacebookGraphApi implements INodeType {
 
 				const binaryProperty = item.binary[binaryPropertyName] as IBinaryData;
 
-				const binaryDataBuffer = await this.helpers.getBinaryDataBuffer(itemIndex, binaryPropertyName);
 				requestOptions.formData = {
 					[propertyName]: {
-						value: binaryDataBuffer,
+						value: Buffer.from(binaryProperty.data, BINARY_ENCODING),
 						options: {
 							filename: binaryProperty.fileName,
 							contentType: binaryProperty.mimeType,
