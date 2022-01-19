@@ -17,7 +17,7 @@ export const speakersTrainingModuleOperations: INodeProperties[] = [
 		options: [
 			{
 				name: 'Create or Update',
-				value: 'create',
+				value: 'update',
 				description: 'Create or update an speakersTrainingModule',
 			},
 			{
@@ -43,7 +43,7 @@ export const speakersTrainingModuleOperations: INodeProperties[] = [
 			},
 			*/
 		],
-		default: 'create',
+		default: 'update',
 		description: 'The operation to perform.',
 	},
 ];
@@ -54,7 +54,7 @@ const additionalFieldsSpeakersTrainingModules: INodeProperties[] = [
 		name: 'id',
 		type: 'string',
 		default: '',
-		description: `speakersTrainingModule's training_session id`,
+		description: `speakersTrainingModule's id`,
 	},
 	{
 		displayName: 'Training Session ID',

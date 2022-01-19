@@ -101,7 +101,7 @@ export const learnersTrainingSessionFields: INodeProperties[] = [
 	//         learnersTrainingSession:getAll
 	// ----------------------------------
 	{
-		displayName: 'learnersTrainingSession ID',
+		displayName: 'Training SessionID',
 		name: 'training_session_id',
 		type: 'string',
 		displayOptions: {

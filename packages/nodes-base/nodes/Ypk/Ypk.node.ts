@@ -30,6 +30,14 @@ interface YpkSettingType {
 	name: string;
 }
 
+const removeEmpty = (obj: any) => {
+	Object.entries(obj).forEach(([key, val])  =>
+		(val && typeof val === 'object') && (removeEmpty(val) && Object.entries(val).length === 0 && delete obj[key]) ||
+		(val === null || val === "" || val === undefined) && delete obj[key]
+	);
+	return obj;
+};
+
 export class Ypk implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'YPK by Hop3team',
@@ -210,7 +218,7 @@ export class Ypk implements INodeType {
 				if (operation === 'getAll') {
 					const trainingSessionId = this.getNodeParameter('training_session_id', i) as string;
 
-					endpoint = `training_session/${trainingSessionId}/learners_training_sessions`;
+					endpoint = `training_sessions/${trainingSessionId}/learners_training_sessions`;
 					dataKey = 'learners_training_sessions';
 					method = 'GET';
 				}
@@ -498,14 +506,29 @@ export class Ypk implements INodeType {
 				const additionalFields = this.getNodeParameter('additionalFields', i, {}) as IDataObject;
 				const id = this.getNodeParameter('id', i, '') as string;
 				const { training_session_id, ...fields } = additionalFields;
-				body = {training_session: {speakers_training_modules_attributes: [{...fields}]}};
 
-				if (operation === 'create') {
+				body = {
+					training_session: {
+						speakers_training_modules_attributes: [Object.assign(
+							fields,
+							id && {id}
+						)]
+					}
+				};
+
+				if (operation === 'update') {
 					// get email input
-					endpoint = `training_sessions/${training_session_id}`;
 
-					dataKey = 'training_session';
 					method = 'PATCH';
+					endpoint = `training_sessions/${training_session_id}`;
+					dataKey = 'training_session';
+
+					console.log("body", body)
+					console.log("speakers_training_modules_attributes", [Object.assign(
+						fields,
+						id && {id}
+					)])
+					console.log("endpoint", endpoint)
 				}
 				if (operation === 'getAll') {
 					const trainingSessionId = this.getNodeParameter('training_session_id', i, "") as string;
@@ -577,6 +600,7 @@ export class Ypk implements INodeType {
 				}
 			}
 
+			body = removeEmpty(body)
 			responseData = await ypkApiRequest.call(this, method, endpoint, body, qs);
 
 				// Map data to n8n data
