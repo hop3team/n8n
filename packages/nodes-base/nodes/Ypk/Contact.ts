@@ -131,6 +131,23 @@ export const contactFields: INodeProperties[] = [
 		},
 		description: `trainingSession's contact_status_id`,
 	},
+  {
+    displayName: "Company's learner ID",
+    name: 'learner_id',
+    type: 'string',
+    default: '',
+    displayOptions: {
+      show: {
+        operation: [
+          'create',
+        ],
+        resource: [
+          'contact',
+        ],
+      },
+    },
+    description: `Company's learner ID`,
+  },
 	// ----------------------------------
 	//         contact:update
 	// ----------------------------------
@@ -152,26 +169,43 @@ export const contactFields: INodeProperties[] = [
 		required: true,
 		description: 'ID of the contact to update.',
 	},
-	{
-		displayName: 'Statut',
-		name: 'contact_status_id',
-		type: 'options',
-		typeOptions: {
-			loadOptionsMethod: 'getContactStatusesOptions',
-		},
-		displayOptions: {
-			show: {
-				operation: [
-					'update',
-				],
-				resource: [
-					'contact',
-				],
-			},
-		},
-		default: '',
-		description: `trainingSession's contact_status_id`,
-	},
+	// {
+	// 	displayName: 'Statut',
+	// 	name: 'contact_status_id',
+	// 	type: 'options',
+	// 	typeOptions: {
+	// 		loadOptionsMethod: 'getContactStatusesOptions',
+	// 	},
+	// 	displayOptions: {
+	// 		show: {
+	// 			operation: [
+	// 				'update',
+	// 			],
+	// 			resource: [
+	// 				'contact',
+	// 			],
+	// 		},
+	// 	},
+	// 	default: '',
+	// 	description: `trainingSession's contact_status_id`,
+	// },
+  {
+    displayName: "Company's learner ID",
+    name: 'learner_id',
+    type: 'string',
+    default: '',
+    displayOptions: {
+      show: {
+        operation: [
+          'update',
+        ],
+        resource: [
+          'contact',
+        ],
+      },
+    },
+    description: `Company's learner ID`,
+  },
 	// ----------------------------------
 	//         contact:delete
 	// ----------------------------------
