@@ -307,16 +307,16 @@ export class Ypk implements INodeType {
 			if (resource === 'contact') {
 				endpoint = 'contacts';
 				const id = this.getNodeParameter('id', i, '') as string;
+        const trainingSessionId = this.getNodeParameter('training_session_id', i, '') as string;
+        const contactStatusId = this.getNodeParameter('contact_status_id', i, '') as string;
+        const contactableId = this.getNodeParameter('contactable_id', i, '') as string;
+        const contactableType = this.getNodeParameter('contactable_type', i, '') as string;
+        const learnerId = this.getNodeParameter('learner_id', i, '') as string;
 
-				if (operation === 'create') {
-					const trainingSessionId = this.getNodeParameter('training_session_id', i, '') as string;
-					const contactStatusId = this.getNodeParameter('contact_status_id', i, '') as string;
-					const contactableId = this.getNodeParameter('contactable_id', i, '') as string;
-					const contactableType = this.getNodeParameter('contactable_type', i, '') as string;
+        body = { contact: { training_session_id: trainingSessionId, contact_status_id: contactStatusId, contactable_id: contactableId, contactable_type: contactableType, contacts_learners_attributes: [{learner_id: learnerId}] }};
 
-
-					body = { contact: { training_session_id: trainingSessionId, contact_status_id: contactStatusId, contactable_id: contactableId, contactable_type: contactableType } };
-
+        
+        if (operation === 'create') {
 					// get email input
 					dataKey = 'contact';
 					method = 'POST';
