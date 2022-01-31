@@ -153,7 +153,7 @@ const additionalFieldsTrainingSessions: INodeProperties[] = [
 	},
 	{
 		displayName: 'Referent ID',
-		name: 'speaker_id',
+		name: 'head_teacher_id',
 		type: 'string',
 		default: '',
 		description: `trainingSession's head teacher`,
