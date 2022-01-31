@@ -462,13 +462,13 @@ export class Ypk implements INodeType {
 				endpoint = 'speakers_training_sessions';
 				const additionalFields = this.getNodeParameter('additionalFields', i, {}) as IDataObject;
 				const trainingSessionId = this.getNodeParameter('training_session_id', i, '') as string;
-				const speakerId = this.getNodeParameter('speaker_id', i, '') as string;
+				// const headTeacherId = this.getNodeParameter('head_teacher_id', i, '') as string;
 				const id = this.getNodeParameter('id', i, '') as string;
 				body = {
 					speakers_training_session: Object.assign(
 						additionalFields,
 						trainingSessionId && {training_session_id: trainingSessionId},
-						speakerId && {speaker_id: speakerId}
+						// headTeacherId && {head_teacher_id: headTeacherId}
 					)
 				};
 
