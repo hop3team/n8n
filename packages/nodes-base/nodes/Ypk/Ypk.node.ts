@@ -22,8 +22,8 @@ import { learnersTrainingSessionFields, learnersTrainingSessionOperations } from
 import { speakersTrainingModuleFields, speakersTrainingModuleOperations } from './SpeakersTrainingModule';
 import { contactFields, contactOperations } from './Contact';
 import { companyFields, companyOperations } from './Company';
-import { annexCostFields, annexCostOperations } from "./AnnexCost";
-import { skillGroupFields, skillGroupOperations } from "./SkillGroup";
+import { annexCostFields, annexCostOperations } from './AnnexCost';
+import { skillGroupFields, skillGroupOperations } from './SkillGroup';
 
 interface YpkSettingType {
 	id: string;
@@ -33,7 +33,7 @@ interface YpkSettingType {
 const removeEmpty = (obj: any) => {
 	Object.entries(obj).forEach(([key, val])  =>
 		(val && typeof val === 'object') && (removeEmpty(val) && Object.entries(val).length === 0 && delete obj[key]) ||
-		(val === null || val === "" || val === undefined) && delete obj[key]
+		(val === null || val === '' || val === undefined) && delete obj[key],
 	);
 	return obj;
 };
@@ -85,7 +85,7 @@ export class Ypk implements INodeType {
 						name: 'Formateur',
 						value: 'speaker',
 					},
-          {
+					{
 						name: 'Referents',
 						value: 'referent',
 					},
@@ -307,15 +307,15 @@ export class Ypk implements INodeType {
 			if (resource === 'contact') {
 				endpoint = 'contacts';
 				const id = this.getNodeParameter('id', i, '') as string;
-        const trainingSessionId = this.getNodeParameter('training_session_id', i, '') as string;
-        const contactStatusId = this.getNodeParameter('contact_status_id', i, '') as string;
-        const contactableId = this.getNodeParameter('contactable_id', i, '') as string;
-        const contactableType = this.getNodeParameter('contactable_type', i, '') as string;
-        const learnerId = this.getNodeParameter('learner_id', i, '') as string;
+				const trainingSessionId = this.getNodeParameter('training_session_id', i, '') as string;
+				const contactStatusId = this.getNodeParameter('contact_status_id', i, '') as string;
+				const contactableId = this.getNodeParameter('contactable_id', i, '') as string;
+				const contactableType = this.getNodeParameter('contactable_type', i, '') as string;
+				const learnerId = this.getNodeParameter('learner_id', i, '') as string;
 
-        body = { contact: { training_session_id: trainingSessionId, contact_status_id: contactStatusId, contactable_id: contactableId, contactable_type: contactableType, contacts_learners_attributes: [{learner_id: learnerId}] }};
-        
-        if (operation === 'create') {
+				body = { contact: { training_session_id: trainingSessionId, contact_status_id: contactStatusId, contactable_id: contactableId, contactable_type: contactableType, contacts_learners_attributes: [{learner_id: learnerId}] }};
+
+				if (operation === 'create') {
 					// get email input
 					dataKey = 'contact';
 					method = 'POST';
@@ -461,12 +461,14 @@ export class Ypk implements INodeType {
 				endpoint = 'speakers_training_sessions';
 				const additionalFields = this.getNodeParameter('additionalFields', i, {}) as IDataObject;
 				const trainingSessionId = this.getNodeParameter('training_session_id', i, '') as string;
+				const speakerId = this.getNodeParameter('speaker_id', i, '') as string;
 				const id = this.getNodeParameter('id', i, '') as string;
 				body = {
 					speakers_training_session: Object.assign(
 						additionalFields,
 						trainingSessionId && {training_session_id: trainingSessionId},
-					)
+						speakerId && {speaker_id: speakerId},
+					),
 				};
 
 				if (operation === 'create') {
@@ -508,9 +510,9 @@ export class Ypk implements INodeType {
 					training_session: {
 						speakers_training_modules_attributes: [Object.assign(
 							fields,
-							id && {id}
-						)]
-					}
+							id && {id},
+						)],
+					},
 				};
 
 				if (operation === 'update') {
@@ -520,15 +522,15 @@ export class Ypk implements INodeType {
 					endpoint = `training_sessions/${training_session_id}`;
 					dataKey = 'training_session';
 
-					console.log("body", body)
-					console.log("speakers_training_modules_attributes", [Object.assign(
+					console.log('body', body);
+					console.log('speakers_training_modules_attributes', [Object.assign(
 						fields,
-						id && {id}
-					)])
-					console.log("endpoint", endpoint)
+						id && {id},
+					)]);
+					console.log('endpoint', endpoint);
 				}
 				if (operation === 'getAll') {
-					const trainingSessionId = this.getNodeParameter('training_session_id', i, "") as string;
+					const trainingSessionId = this.getNodeParameter('training_session_id', i, '') as string;
 
 					endpoint = `training_sessions/${trainingSessionId}/courses`;
 					dataKey = 'speakers_training_modules';
@@ -559,7 +561,7 @@ export class Ypk implements INodeType {
 				body = {};
 
 				if (operation === 'getAll') {
-					const trainingSessionId = this.getNodeParameter('training_id', i, "") as string;
+					const trainingSessionId = this.getNodeParameter('training_id', i, '') as string;
 
 					endpoint = `trainings/${trainingSessionId}/skill_groups`;
 					dataKey = 'skill_groups';
@@ -597,7 +599,7 @@ export class Ypk implements INodeType {
 				}
 			}
 
-			body = removeEmpty(body)
+			body = removeEmpty(body);
 			responseData = await ypkApiRequest.call(this, method, endpoint, body, qs);
 
 				// Map data to n8n data
