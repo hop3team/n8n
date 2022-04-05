@@ -19,11 +19,12 @@ import { trainingFields, trainingOperations } from './Training';
 import { trainingSessionFields, trainingSessionOperations } from './TrainingSession';
 import { speakersTrainingSessionFields, speakersTrainingSessionOperations } from './SpeakersTrainingSession';
 import { learnersTrainingSessionFields, learnersTrainingSessionOperations } from './LearnersTrainingSession';
-import { speakersTrainingModuleFields, speakersTrainingModuleOperations } from './SpeakersTrainingModule';
+import { courseFields, courseOperations } from './Course';
 import { contactFields, contactOperations } from './Contact';
 import { companyFields, companyOperations } from './Company';
 import { annexCostFields, annexCostOperations } from './AnnexCost';
 import { skillGroupFields, skillGroupOperations } from './SkillGroup';
+import { groupFields, groupOperations } from './Group';
 
 interface YpkSettingType {
 	id: string;
@@ -106,12 +107,16 @@ export class Ypk implements INodeType {
 						value: 'learnersTrainingSession',
 					},
 					{
-						name: 'SpeakersTrainingModule',
-						value: 'speakersTrainingModule',
+						name: 'Course',
+						value: 'course',
 					},
 					{
 						name: 'SkillGroup',
 						value: 'skillGroup',
+					},
+					{
+						name: 'Group',
+						value: 'group',
 					},
 				],
 				default: 'learner',
@@ -128,9 +133,10 @@ export class Ypk implements INodeType {
 			...trainingOperations,
 			...trainingSessionOperations,
 			...speakersTrainingSessionOperations,
-			...speakersTrainingModuleOperations,
+			...courseOperations,
 			...speakerOperations,
 			...skillGroupOperations,
+			...groupOperations,
 
 			// Fields
 			...annexCostFields,
@@ -141,9 +147,10 @@ export class Ypk implements INodeType {
 			...trainingFields,
 			...trainingSessionFields,
 			...speakersTrainingSessionFields,
-			...speakersTrainingModuleFields,
+			...courseFields,
 			...speakerFields,
 			...skillGroupFields,
+			...groupFields,
 
 		],
 	};
@@ -500,60 +507,47 @@ export class Ypk implements INodeType {
 				}
 			}
 
-			if (resource === 'speakersTrainingModule') {
-				endpoint = 'speakers_training_modules';
-				const additionalFields = this.getNodeParameter('additionalFields', i, {}) as IDataObject;
+			if (resource === 'course') {
+				endpoint = 'courses';
 				const id = this.getNodeParameter('id', i, '') as string;
-				const { training_session_id, ...fields } = additionalFields;
+				const trainingSessionId = this.getNodeParameter('training_session_id', i, '') as string;
+				const additionalFields = this.getNodeParameter('additionalFields', i, {}) as IDataObject;
+				const { group_id, speakers_training_session_id, ...fields } = additionalFields;
 
 				body = {
-					training_session: {
-						speakers_training_modules_attributes: [Object.assign(
-							fields,
-							id && {id},
-						)],
-					},
-				};
-
-				if (operation === 'update') {
-					// get email input
-
-					method = 'PATCH';
-					endpoint = `training_sessions/${training_session_id}`;
-					dataKey = 'training_session';
-
-					console.log('body', body);
-					console.log('speakers_training_modules_attributes', [Object.assign(
+					course: Object.assign(
 						fields,
-						id && {id},
-					)]);
-					console.log('endpoint', endpoint);
-				}
+						speakers_training_session_id && {course_speakers_training_sessions_attributes: [{speakers_training_session_id}]},
+						group_id && {groups_courses_attributes: [{group_id}]},
+					),
+				};
 				if (operation === 'getAll') {
-					const trainingSessionId = this.getNodeParameter('training_session_id', i, '') as string;
-
 					endpoint = `training_sessions/${trainingSessionId}/courses`;
-					dataKey = 'speakers_training_modules';
+					dataKey = 'courses';
 					method = 'GET';
 				}
-				/*
+
+				if (operation === 'create') {
+					endpoint = `training_sessions/${trainingSessionId}/courses`;
+					dataKey = 'courses';
+					method = 'POST';
+				}
+
 				if (operation === 'update') {
-					endpoint = `speakers_training_modules/${id}`;
-					dataKey = 'speakers_training_module';
+					endpoint = `courses/${id}`;
+					dataKey = 'course';
 					method = 'PATCH';
 				}
 				if (operation === 'delete') {
-					endpoint = `speakers_training_modules/${id}`;
-					dataKey = 'speakers_training_module';
+					endpoint = `courses/${id}`;
+					dataKey = 'course';
 					method = 'DELETE';
 				}
 				if (operation === 'get') {
-					endpoint = `speakers_training_modules/${id}`;
+					endpoint = `courses/${id}`;
 					dataKey = 'speakers_training_session';
 					method = 'GET';
 				}
-
-				*/
 			}
 
 			if (resource === 'skillGroup') {
@@ -595,6 +589,17 @@ export class Ypk implements INodeType {
 				if (operation === 'getAll') {
 					endpoint = `training_sessions/${trainingSessionId}/annex_costs`;
 					dataKey = 'annex_costs';
+					method = 'GET';
+				}
+			}
+
+			if (resource === 'group') {
+				endpoint = 'group';
+				const trainingSessionId = this.getNodeParameter('training_session_id', i, '') as string;
+
+				if (operation === 'getAll') {
+					endpoint = `training_sessions/${trainingSessionId}/groups`;
+					dataKey = 'groups';
 					method = 'GET';
 				}
 			}

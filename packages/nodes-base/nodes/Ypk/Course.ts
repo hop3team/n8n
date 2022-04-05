@@ -2,7 +2,7 @@ import {
 	INodeProperties
 } from 'n8n-workflow';
 
-export const speakersTrainingModuleOperations: INodeProperties[] = [
+export const courseOperations: INodeProperties[] = [
 	{
 		displayName: 'Operation',
 		name: 'operation',
@@ -10,107 +10,116 @@ export const speakersTrainingModuleOperations: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: [
-					'speakersTrainingModule',
+					'course',
 				],
 			},
 		},
 		options: [
 			{
-				name: 'Create or Update',
-				value: 'update',
-				description: 'Create or update an speakersTrainingModule',
+				name: 'Create',
+				value: 'create',
+				description: 'Create an course',
 			},
 			{
 				name: 'Get All',
 				value: 'getAll',
-				description: 'Get data of all speakersTrainingModules of a session',
+				description: 'Get data of all courses of a session',
 			},
-		/*
 		{
 				name: 'Delete',
 				value: 'delete',
-				description: 'Delete an speakersTrainingModule',
+				description: 'Delete an course',
 			},
 			{
 				name: 'Get',
 				value: 'get',
-				description: 'Get data of an speakersTrainingModule',
+				description: 'Get data of an course',
 			},
 			{
 				name: 'Update',
 				value: 'update',
-				description: 'Update an speakersTrainingModule',
+				description: 'Update an course',
 			},
-			*/
 		],
-		default: 'update',
+		default: 'getAll',
 		description: 'The operation to perform.',
 	},
 ];
 
-const additionalFieldsSpeakersTrainingModules: INodeProperties[] = [
-	{
-		displayName: 'ID',
-		name: 'id',
-		type: 'string',
-		default: '',
-		description: `speakersTrainingModule's id`,
-	},
-	{
-		displayName: 'Training Session ID',
-		name: 'training_session_id',
-		type: 'string',
-		default: '',
-		description: `speakersTrainingModule's training_session id`,
-	},
+const additionalFieldsCourses: INodeProperties[] = [
 	{
 		displayName: 'Training Module ID',
 		name: 'training_module_id',
 		type: 'string',
 		default: '',
-		description: `speakersTrainingModule's training_module id`,
+		description: `course's training_module id`,
 	},
 	{
-		displayName: 'Speaker ID of speakersTrainingSession',
-		name: 'speaker_id',
+		displayName: 'ID of speakersTrainingSession',
+		name: 'speakers_training_session_id',
 		type: 'string',
 		default: '',
-		description: `speakersTrainingModule's speaker id`,
+		description: `course's speakersTrainingSession id`,
+	},
+	{
+		displayName: 'Group id',
+		name: 'group_id',
+		type: 'string',
+		default: '',
+		description: `course's group id`,
 	},
 	{
 		displayName: 'Label',
 		name: 'label',
 		type: 'string',
 		default: '',
-		description: `speakersTrainingModule's label`,
+		description: `course's label`,
 	},
 	{
 		displayName: 'Date',
 		name: 'date',
 		type: 'dateTime',
 		default: '',
-		description: `speakersTrainingModule's date`,
+		description: `course's date`,
 	},
 	{
 		displayName: 'Begin Time',
 		name: 'begin_time',
 		type: 'string',
 		default: '',
-		description: `speakersTrainingModule's begin_time`,
+		description: `course's begin_time`,
 	},
 	{
 		displayName: 'End Time',
 		name: 'end_time',
 		type: 'string',
 		default: '',
-		description: `speakersTrainingModule's end_time`,
+		description: `course's end_time`,
 	},
 ];
 
-export const speakersTrainingModuleFields: INodeProperties[] = [
+export const courseFields: INodeProperties[] = [
 	// ----------------------------------
 	//         contact:create
 	// ----------------------------------
+	{
+		displayName: 'Training Session ID',
+		name: 'training_session_id',
+		type: 'string',
+		displayOptions: {
+			show: {
+				operation: [
+					'create',
+				],
+				resource: [
+					'course',
+				],
+			},
+		},
+		default: '',
+		required: true,
+		description: 'ID of the course to get.',
+	},
 	{
 		displayName: 'Additional Fields',
 		name: 'additionalFields',
@@ -122,20 +131,20 @@ export const speakersTrainingModuleFields: INodeProperties[] = [
 					'create',
 				],
 				resource: [
-					'speakersTrainingModule',
+					'course',
 				],
 			},
 		},
 		default: {},
 		options: [
-			...additionalFieldsSpeakersTrainingModules,
+			...additionalFieldsCourses,
 		],
 	},
 	// ----------------------------------
 	//         contact:update
 	// ----------------------------------
 	{
-		displayName: 'speakersTrainingModule ID',
+		displayName: 'course ID',
 		name: 'id',
 		type: 'string',
 		displayOptions: {
@@ -144,13 +153,13 @@ export const speakersTrainingModuleFields: INodeProperties[] = [
 					'update',
 				],
 				resource: [
-					'speakersTrainingModule',
+					'course',
 				],
 			},
 		},
 		default: '',
 		required: true,
-		description: 'ID of the speakersTrainingModule to update.',
+		description: 'ID of the course to update.',
 	},
 	{
 		displayName: 'Update Fields',
@@ -164,20 +173,20 @@ export const speakersTrainingModuleFields: INodeProperties[] = [
 					'update',
 				],
 				resource: [
-					'speakersTrainingModule',
+					'course',
 				],
 			},
 		},
 		default: {},
 		options: [
-			...additionalFieldsSpeakersTrainingModules,
+			...additionalFieldsCourses,
 		],
 	},
 	// ----------------------------------
-	//         speakersTrainingModule:delete
+	//         course:delete
 	// ----------------------------------
 	{
-		displayName: 'speakersTrainingModule ID',
+		displayName: 'course ID',
 		name: 'id',
 		type: 'string',
 		displayOptions: {
@@ -186,19 +195,19 @@ export const speakersTrainingModuleFields: INodeProperties[] = [
 					'delete',
 				],
 				resource: [
-					'speakersTrainingModule',
+					'course',
 				],
 			},
 		},
 		default: '',
 		required: true,
-		description: 'ID of the speakersTrainingModule to delete.',
+		description: 'ID of the course to delete.',
 	},
 	// ----------------------------------
-	//         speakersTrainingModule:get
+	//         course:get
 	// ----------------------------------
 	{
-		displayName: 'speakersTrainingModule ID',
+		displayName: 'course ID',
 		name: 'id',
 		type: 'string',
 		displayOptions: {
@@ -207,16 +216,16 @@ export const speakersTrainingModuleFields: INodeProperties[] = [
 					'get',
 				],
 				resource: [
-					'speakersTrainingModule',
+					'course',
 				],
 			},
 		},
 		default: '',
 		required: true,
-		description: 'ID of the speakersTrainingModule to get.',
+		description: 'ID of the course to get.',
 	},
 	// ----------------------------------
-	//         speakersTrainingModule:getAll
+	//         course:getAll
 	// ----------------------------------
 	{
 		displayName: 'Training Session ID',
@@ -228,12 +237,12 @@ export const speakersTrainingModuleFields: INodeProperties[] = [
 					'getAll',
 				],
 				resource: [
-					'speakersTrainingModule',
+					'course',
 				],
 			},
 		},
 		default: '',
 		required: true,
-		description: 'ID of the speakersTrainingModule to get.',
+		description: 'ID of the course to get.',
 	},
 ];
